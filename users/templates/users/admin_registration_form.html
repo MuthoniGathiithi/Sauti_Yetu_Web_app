@@ -474,8 +474,6 @@
 
         // Form validation
         document.getElementById('adminForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm_password').value;
             const role = document.querySelector('input[name="role"]:checked');
@@ -486,6 +484,7 @@
             
             // Validate passwords match
             if (password !== confirmPassword) {
+                e.preventDefault();
                 document.getElementById('errorMessage').textContent = 'Passwords do not match. Please try again.';
                 document.getElementById('errorMessage').style.display = 'block';
                 return;
@@ -493,6 +492,7 @@
             
             // Validate password length
             if (password.length < 8) {
+                e.preventDefault();
                 document.getElementById('errorMessage').textContent = 'Password must be at least 8 characters long.';
                 document.getElementById('errorMessage').style.display = 'block';
                 return;
@@ -500,19 +500,11 @@
             
             // Validate role selection
             if (!role) {
+                e.preventDefault();
                 document.getElementById('errorMessage').textContent = 'Please select an admin role.';
                 document.getElementById('errorMessage').style.display = 'block';
                 return;
             }
-            
-            // Show success message (in real Django, this would be handled by the backend)
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // In real Django implementation, remove this and let the form submit naturally
-            // this.submit();
-            
-            // For demo purposes, scroll to success message
-            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
         });
 
         // Add animation on page load
