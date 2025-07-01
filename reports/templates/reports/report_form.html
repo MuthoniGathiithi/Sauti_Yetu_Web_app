@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report - SautiYetu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #8B47C7 0%, #4A90E2 100%);
+            min-height: 100vh;
+            color: white;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating particles */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.15), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.1), transparent),
+                radial-gradient(2px 2px at 160px 30px, rgba(255,255,255,0.1), transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: sparkle 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-100px); }
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .language-toggle a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .language-toggle a:hover,
+        .language-toggle a.active {
+            color: white;
+        }
+
+        .main-content {
+            padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .report-choice {
+            max-width: 800px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .choice-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .choice-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .choice-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .choice-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .choice-btn:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .choice-btn.active {
+            background: rgba(139, 71, 199, 0.3);
+            border-color: rgba(139, 71, 199, 0.5);
+        }
+
+        .choice-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .choice-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .choice-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        .form-container {
+            max-width: 800px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 2rem;
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-subtitle {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .privacy-note {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        .privacy-note .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-group .optional {
+            font-weight: 400;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .form-group select option {
+            background: #8B47C7;
+            color: white;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-label:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .file-upload-icon {
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        .file-upload-text {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #8B47C7, #4A90E2);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(139, 71, 199, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .back-btn {
+            flex: 1;
+        }
+
+        .submit-btn {
+            flex: 2;
+        }
+
+        .anonymous-reminder {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .choice-title {
+                font-size: 2.2rem;
+            }
+
+            .choice-buttons {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+
+            .form-title {
+                font-size: 2rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">🗣️ SautiYetu</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="#" style="opacity: 1; font-weight: 600;">Report</a></li>
+                <li><a href="/resources">Resources</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/about">About</a></li>
+            </ul>
+            <div class="language-toggle">
+                <a href="?lang=en" class="active">🇬🇧 English</a>
+                <a href="?lang=sw">🇰🇪 Kiswahili</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <!-- Choice Section -->
+        <section class="report-choice" id="choiceSection">
+            <h1 class="choice-title">Share Your Story</h1>
+            <p class="choice-subtitle">
+                Your voice matters. Choose how you'd like to share your experience safely and anonymously.
+            </p>
+            
+            <div class="choice-buttons">
+                <div class="choice-btn" onclick="showWriteForm()">
+                    <div class="choice-icon">✍️</div>
+                    <div class="choice-text">Write My Story</div>
+                    <div class="choice-desc">Share your experience in writing</div>
+                </div>
+                
+                <a href="{% url 'reports:voice_upload' %}" class="choice-btn">
+                    <div class="choice-icon">🎤</div>
+                    <div class="choice-text">Record My Story</div>
+                    <div class="choice-desc">Share your experience with voice</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Written Report Form -->
+        <section class="form-container" id="writeForm">
+            <h2 class="form-title">Write Your Report</h2>
+            <p class="form-subtitle">
+                Share your story in your own words. All fields are optional - share only what feels safe.
+            </p>
+
+            <div class="privacy-note">
+                <span class="icon">🔒</span>
+                <strong>Your Privacy is Protected:</strong><br>
+                This report is completely anonymous. We don't track your location or store any identifying information.
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="title">
+                        Title <span class="optional">(optional)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="title" 
+                        name="title" 
+                        placeholder="Give your story a title..."
+                        maxlength="200"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        Your Story <span class="optional">(optional)</span>
+                    </label>
+                    <textarea 
+                        id="description" 
+                        name="description"
+                        placeholder="Share your experience here. Take your time and share as much or as little as you feel comfortable with..."
+                        rows="8"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">
+                        Category <span class="optional">(optional)</span>
+                    </label>
+                    <select id="category" name="category">
+                        <option value="">Select a category (optional)</option>
+                        {% for value, label in categories %}
+                            <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">
+                        Location <span class="optional">(optional)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="location" 
+                        name="location" 
+                        placeholder="General area (e.g., Nairobi, Mombasa) - be as vague as you feel comfortable"
+                        maxlength="100"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="age">
+                        Age <span class="optional">(optional)</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="age" 
+                        name="age" 
+                        placeholder="Your age"
+                        min="1" 
+                        max="120"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="photo_evidence">
+                        Photo Evidence <span class="optional">(optional)</span>
+                    </label>
+                    <div class="file-upload">
+                        <input type="file" id="photo_evidence" name="photo_evidence" accept="image/*">
+                        <label for="photo_evidence" class="file-upload-label">
+                            <span class="file-upload-icon">📷</span>
+                            <span class="file-upload-text">
+                                Click to upload a photo (optional)<br>
+                                <small>Only upload if you feel safe doing so</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary back-btn" onclick="showChoiceSection()">
+                        ← Back to Options
+                    </button>
+                    <button type="submit" class="btn-primary submit-btn">
+                        Submit Report Securely
+                    </button>
+                </div>
+
+                <div class="anonymous-reminder">
+                    <strong>Remember:</strong> This report is completely anonymous. 
+                    You can submit it without providing any personal information.
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        function showWriteForm() {
+            document.getElementById('choiceSection').style.display = 'none';
+            document.getElementById('writeForm').classList.add('active');
+        }
+
+        function showChoiceSection() {
+            document.getElementById('choiceSection').style.display = 'block';
+            document.getElementById('writeForm').classList.remove('active');
+        }
+
+        // File upload preview
+        document.getElementById('photo_evidence').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const label = document.querySelector('.file-upload-label .file-upload-text');
+            
+            if (file) {
+                label.innerHTML = `
+                    Selected: ${file.name}<br>
+                    <small>Click to change photo</small>
+                `;
+            } else {
+                label.innerHTML = `
+                    Click to upload a photo (optional)<br>
+                    <small>Only upload if you feel safe doing so</small>
+                `;
+            }
+        });
+
+        // Auto-resize textarea
+        document.getElementById('description').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+
+        // Character counter for title
+        document.getElementById('title').addEventListener('input', function() {
+            const maxLength = 200;
+            const currentLength = this.value.length;
+            
+            if (currentLength > maxLength * 0.8) {
+                // Add visual feedback when approaching limit
+                this.style.borderColor = currentLength >= maxLength ? 'rgba(255, 82, 82, 0.5)' : 'rgba(255, 193, 7, 0.5)';
+            } else {
+                this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            }
+        });
+    </script>
+</body>
+</html>
