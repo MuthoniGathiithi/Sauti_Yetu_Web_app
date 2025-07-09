@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin List - SautiYetu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .admin-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        .admin-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1rem auto;
+        }
+        .admin-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .admin-email {
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .admin-role {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .role-super {
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+        .role-admin {
+            background: rgba(0, 255, 127, 0.3);
+            color: #00ff7f;
+        }
+        .role-moderator {
+            background: rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+        }
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .status-active {
+            background: #00ff7f;
+        }
+        .status-inactive {
+            background: #ff6b6b;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .btn-secondary {
+            background: rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 165, 0, 0.4);
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            opacity: 0.8;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        .empty-state-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .empty-state-message {
+            opacity: 0.8;
+        }
+        .back-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+                        
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+                        
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">SautiYetu</div>
+        <div class="nav-links">
+            <a href="#dashboard">Dashboard</a>
+            <a href="#admins" class="active">Admins</a>
+            <a href="#reports">Reports</a>
+            <a href="#settings">Settings</a>
+        </div>
+        <div class="user-profile">
+            <div class="user-avatar">SA</div>
+            <span>Super Admin</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Administrator Management</h1>
+            <p class="page-subtitle">View and manage all system administrators</p>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Total Admins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Inactive</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Super Admins</div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <svg class="search-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            </svg>
+            <input type="text" placeholder="Search administrators by name, email, or role..." id="searchInput">
+        </div>
+
+        <div class="admin-grid" id="adminGrid">
+            <!-- Admin cards will be populated here -->
+        </div>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">←</button>
+
+    <script>
+        // Empty admin data array - ready for real data when admins are added
+        const admins = [];
+
+        function getRoleClass(role) {
+            if (role === "Super Admin") return "role-super";
+            if (role === "Admin") return "role-admin";
+            return "role-moderator";
+        }
+
+        function createAdminCard(admin) {
+            return `
+                <div class="admin-card">
+                    <div class="admin-avatar">${admin.avatar}</div>
+                    <div class="admin-name">${admin.name}</div>
+                    <div class="admin-email">${admin.email}</div>
+                    <div class="admin-role ${getRoleClass(admin.role)}">${admin.role}</div>
+                    <div class="admin-status">
+                        <div class="status-indicator ${admin.status === 'active' ? 'status-active' : 'status-inactive'}"></div>
+                        <span>${admin.status.charAt(0).toUpperCase() + admin.status.slice(1)}</span>
+                        <span style="margin-left: auto; opacity: 0.7;">Last: ${admin.lastLogin}</span>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" onclick="editAdmin(${admin.id})">Edit</button>
+                        <button class="btn btn-secondary" onclick="viewDetails(${admin.id})">Details</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createEmptyState() {
+            return `
+                <div class="empty-state">
+                    <div class="empty-state-icon">👥</div>
+                    <div class="empty-state-title">No Administrators Yet</div>
+                    <div class="empty-state-message">No administrators have been added to the system yet. When admins are added, they will appear here.</div>
+                </div>
+            `;
+        }
+
+        function renderAdmins(adminList = admins) {
+            const adminGrid = document.getElementById('adminGrid');
+            
+            if (adminList.length === 0) {
+                adminGrid.innerHTML = createEmptyState();
+            } else {
+                adminGrid.innerHTML = adminList.map(admin => createAdminCard(admin)).join('');
+            }
+        }
+
+        function searchAdmins() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredAdmins = admins.filter(admin => 
+                admin.name.toLowerCase().includes(searchTerm) ||
+                admin.email.toLowerCase().includes(searchTerm) ||
+                admin.role.toLowerCase().includes(searchTerm)
+            );
+            renderAdmins(filteredAdmins);
+        }
+
+        function editAdmin(adminId) {
+            alert(`Edit admin functionality for ID: ${adminId}`);
+            // Implement edit functionality
+        }
+
+        function viewDetails(adminId) {
+            alert(`View details for admin ID: ${adminId}`);
+            // Implement view details functionality
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAdmins();
+            
+            // Add search functionality
+            document.getElementById('searchInput').addEventListener('input', searchAdmins);
+        });
+    </script>
+</body>
+</html>
