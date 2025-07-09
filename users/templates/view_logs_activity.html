@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Logs & Activity - SautiYetu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .filters-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .filter-group label {
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        .filter-group select,
+        .filter-group input {
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        .filter-group select option {
+            background: #764ba2;
+            color: white;
+        }
+        .filter-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+            color: white;
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .logs-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .logs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .logs-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        .export-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.6rem 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .export-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .logs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .logs-table th,
+        .logs-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .logs-table th {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .logs-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        .status-success {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+        }
+        .status-warning {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+        }
+        .status-error {
+            background: rgba(244, 67, 54, 0.3);
+            color: #f44336;
+        }
+        .status-info {
+            background: rgba(33, 150, 243, 0.3);
+            color: #2196f3;
+        }
+        .activity-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .activity-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        .icon-login {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+        }
+        .icon-logout {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffc107;
+        }
+        .icon-create {
+            background: rgba(33, 150, 243, 0.3);
+            color: #2196f3;
+        }
+        .icon-update {
+            background: rgba(156, 39, 176, 0.3);
+            color: #9c27b0;
+        }
+        .icon-delete {
+            background: rgba(244, 67, 54, 0.3);
+            color: #f44336;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .pagination button {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .pagination button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pagination .active {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            opacity: 0.8;
+        }
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        .empty-state-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .empty-state-message {
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+                        
+            .logs-table {
+                font-size: 0.9rem;
+            }
+                        
+            .logs-table th,
+            .logs-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">LOGO SautiYetu</div>
+        <div class="nav-links">
+            <a href="#dashboard">Dashboard</a>
+            <a href="#admins">Admins</a>
+            <a href="#reports" class="active">Reports</a>
+            <a href="#settings">Settings</a>
+        </div>
+        <div class="user-info">
+            <span>Super Admin</span>
+            <span>SA</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">View Logs & Activity</h1>
+            <p class="page-subtitle">Monitor system activity, admin actions, and security events</p>
+        </div>
+
+        <div class="filters-section">
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="dateFrom">From Date</label>
+                    <input type="date" id="dateFrom" name="dateFrom">
+                </div>
+                <div class="filter-group">
+                    <label for="dateTo">To Date</label>
+                    <input type="date" id="dateTo" name="dateTo">
+                </div>
+                <div class="filter-group">
+                    <label for="activityType">Activity Type</label>
+                    <select id="activityType" name="activityType">
+                        <option value="">All Activities</option>
+                        <option value="login">Login</option>
+                        <option value="logout">Logout</option>
+                        <option value="create">Create</option>
+                        <option value="update">Update</option>
+                        <option value="delete">Delete</option>
+                        <option value="view">View</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="adminUser">Admin User</label>
+                    <select id="adminUser" name="adminUser">
+                        <option value="">All Admins</option>
+                        <!-- Admin options will be populated when admins are added -->
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status">
+                        <option value="">All Status</option>
+                        <option value="success">Success</option>
+                        <option value="warning">Warning</option>
+                        <option value="error">Error</option>
+                        <option value="info">Info</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="searchTerm">Search</label>
+                    <input type="text" id="searchTerm" name="searchTerm" placeholder="Search logs...">
+                </div>
+            </div>
+            <div class="filter-buttons">
+                <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                <button class="btn btn-secondary" onclick="clearFilters()">Clear All</button>
+            </div>
+        </div>
+
+        <div class="logs-section">
+            <div class="logs-header">
+                <h2 class="logs-title">Activity Logs</h2>
+                <button class="export-btn" onclick="exportLogs()">Export Logs</button>
+            </div>
+            
+            <table class="logs-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Admin User</th>
+                        <th>Activity Type</th>
+                        <th>Description</th>
+                        <th>IP Address</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="logsTableBody">
+                    <!-- Logs will be populated here -->
+                </tbody>
+            </table>
+
+            <div class="pagination" id="paginationContainer" style="display: none;">
+                <button onclick="previousPage()" id="prevBtn">Previous</button>
+                <button class="active">1</button>
+                <button onclick="goToPage(2)">2</button>
+                <button onclick="goToPage(3)">3</button>
+                <button onclick="nextPage()" id="nextBtn">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Empty logs array - ready for real data when system is used
+        const logs = [];
+        let currentPage = 1;
+        const itemsPerPage = 10;
+
+        function createEmptyState() {
+            return `
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <div class="empty-state-title">No Activity Logs Yet</div>
+                            <div class="empty-state-message">
+                                No system activity has been recorded yet. When administrators start using the system, 
+                                their actions and login activities will appear here for monitoring and auditing purposes.
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        function renderLogs(logData = logs) {
+            const tbody = document.getElementById('logsTableBody');
+            const paginationContainer = document.getElementById('paginationContainer');
+            
+            if (logData.length === 0) {
+                tbody.innerHTML = createEmptyState();
+                paginationContainer.style.display = 'none';
+                return;
+            }
+
+            // If there are logs, show pagination and render them
+            paginationContainer.style.display = 'flex';
+            
+            // This would contain the actual log rendering logic
+            // For now, just show empty state since no logs exist
+            tbody.innerHTML = createEmptyState();
+        }
+
+        function applyFilters() {
+            // Get filter values
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const activityType = document.getElementById('activityType').value;
+            const adminUser = document.getElementById('adminUser').value;
+            const status = document.getElementById('status').value;
+            const searchTerm = document.getElementById('searchTerm').value;
+
+            // Here you would implement the actual filtering logic
+            console.log('Applying filters:', { dateFrom, dateTo, activityType, adminUser, status, searchTerm });
+                        
+            // Show loading state
+            const tbody = document.getElementById('logsTableBody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 2rem;">Searching for matching logs...</td></tr>';
+                        
+            // Simulate API call
+            setTimeout(() => {
+                // Since no logs exist, show empty state
+                renderLogs();
+            }, 1000);
+        }
+
+        function clearFilters() {
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.getElementById('activityType').value = '';
+            document.getElementById('adminUser').value = '';
+            document.getElementById('status').value = '';
+            document.getElementById('searchTerm').value = '';
+            renderLogs();
+        }
+
+        function exportLogs() {
+            if (logs.length === 0) {
+                alert('No logs available to export. Logs will be available once administrators start using the system.');
+                return;
+            }
+            
+            // Here you would implement the export functionality
+            alert('Exporting logs... This would download a CSV/PDF file with the current log data.');
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+            }
+        }
+
+        function nextPage() {
+            currentPage++;
+            updatePagination();
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            updatePagination();
+        }
+
+        function updatePagination() {
+            // Update pagination buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+                        
+            prevBtn.disabled = currentPage === 1;
+                        
+            // Update active page button
+            document.querySelectorAll('.pagination button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+                        
+            // This is a simplified example - you'd need more complex logic for real pagination
+            console.log('Current page:', currentPage);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default date range (last 7 days)
+            const today = new Date();
+            const lastWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        
+            document.getElementById('dateTo').value = today.toISOString().split('T')[0];
+            document.getElementById('dateFrom').value = lastWeek.toISOString().split('T')[0];
+                        
+            // Load initial state (empty)
+            renderLogs();
+        });
+    </script>
+</body>
+</html>
