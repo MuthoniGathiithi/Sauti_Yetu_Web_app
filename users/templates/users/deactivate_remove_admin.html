@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deactivate Admins - SautiYetu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .warning-banner {
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid rgba(255, 165, 0, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .warning-icon {
+            font-size: 2rem;
+            color: #ffa500;
+        }
+        .warning-text {
+            flex: 1;
+        }
+        .warning-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .filter-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .filter-tab.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        .search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .admin-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        .admin-card.inactive {
+            opacity: 0.6;
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+        .admin-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .admin-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .admin-info {
+            flex: 1;
+        }
+        .admin-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .admin-email {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        .admin-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .status-active {
+            background: #00ff7f;
+        }
+        .status-inactive {
+            background: #ff6b6b;
+        }
+        .admin-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .detail-label {
+            opacity: 0.7;
+        }
+        .admin-role {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .role-super {
+            background: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+        }
+        .role-admin {
+            background: rgba(0, 255, 127, 0.3);
+            color: #00ff7f;
+        }
+        .role-moderator {
+            background: rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            flex: 1;
+        }
+        .btn-warning {
+            background: rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+            border: 1px solid rgba(255, 165, 0, 0.5);
+        }
+        .btn-warning:hover {
+            background: rgba(255, 165, 0, 0.4);
+        }
+        .btn-danger {
+            background: rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.5);
+        }
+        .btn-danger:hover {
+            background: rgba(255, 107, 107, 0.4);
+        }
+        .btn-success {
+            background: rgba(0, 255, 127, 0.3);
+            color: #00ff7f;
+            border: 1px solid rgba(0, 255, 127, 0.5);
+        }
+        .btn-success:hover {
+            background: rgba(0, 255, 127, 0.4);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .back-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+        }
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .modal-body {
+            margin-bottom: 2rem;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .reason-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            resize: vertical;
+            min-height: 100px;
+            margin-top: 1rem;
+        }
+        .reason-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        .empty-state-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .empty-state-message {
+            opacity: 0.8;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+                        
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+                        
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+                        
+            .admin-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">SautiYetu</div>
+        <div class="nav-links">
+            <a href="#dashboard">Dashboard</a>
+            <a href="#admins" class="active">Admins</a>
+            <a href="#reports">Reports</a>
+            <a href="#settings">Settings</a>
+        </div>
+        <div class="user-profile">
+            <div class="user-avatar">SA</div>
+            <span>Super Admin</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Admin Account Management</h1>
+            <p class="page-subtitle">Suspend or permanently remove administrator accounts</p>
+        </div>
+
+        <div class="warning-banner">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-text">
+                <div class="warning-title">Important Notice</div>
+                <div>Deactivating or removing administrator accounts is a critical action that cannot be easily undone. Please ensure you have proper authorization before proceeding.</div>
+            </div>
+        </div>
+
+        <div class="filter-tabs">
+            <div class="filter-tab active" data-filter="all">All Admins</div>
+            <div class="filter-tab" data-filter="active">Active Only</div>
+            <div class="filter-tab" data-filter="inactive">Inactive Only</div>
+        </div>
+
+        <div class="search-bar">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+            </svg>
+            <input type="text" placeholder="Search administrators..." id="searchInput">
+        </div>
+
+        <div class="admin-grid" id="adminGrid">
+            <!-- Admin cards will be populated here -->
+        </div>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">←</button>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon" id="modalIcon">🚫</div>
+                <h2 class="modal-title" id="modalTitle">Confirm Action</h2>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+                <textarea class="reason-textarea" id="reasonInput" placeholder="Please provide a reason for this action..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-danger" id="confirmBtn">Confirm</button>
+                <button class="btn btn-success" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Empty admin data array - ready for real data when admins are added
+        const admins = [];
+
+        let currentFilter = 'all';
+        let currentAction = null;
+        let currentAdminId = null;
+
+        function getRoleClass(role) {
+            if (role === "Super Admin") return "role-super";
+            if (role === "Admin") return "role-admin";
+            return "role-moderator";
+        }
+
+        function createAdminCard(admin) {
+            const isInactive = admin.status === 'inactive';
+            const canDeactivate = admin.status === 'active' && admin.role !== 'Super Admin';
+            const canReactivate = admin.status === 'inactive';
+                        
+            return `
+                <div class="admin-card ${isInactive ? 'inactive' : ''}">
+                    <div class="admin-header">
+                        <div class="admin-avatar">${admin.avatar}</div>
+                        <div class="admin-info">
+                            <div class="admin-name">${admin.name}</div>
+                            <div class="admin-email">${admin.email}</div>
+                            <div class="admin-status">
+                                <div class="status-indicator ${admin.status === 'active' ? 'status-active' : 'status-inactive'}"></div>
+                                <span>${admin.status.charAt(0).toUpperCase() + admin.status.slice(1)}</span>
+                            </div>
+                        </div>
+                    </div>
+                                        
+                    <div class="admin-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Role:</span>
+                            <span class="admin-role ${getRoleClass(admin.role)}">${admin.role}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Last Login:</span>
+                            <span>${admin.lastLogin}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Join Date:</span>
+                            <span>${admin.joinDate}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Actions Taken:</span>
+                            <span>${admin.actions}</span>
+                        </div>
+                    </div>
+                                        
+                    <div class="admin-actions">
+                        ${canDeactivate ? `
+                            <button class="btn btn-warning" onclick="showConfirmModal('suspend', ${admin.id})">Suspend</button>
+                            <button class="btn btn-danger" onclick="showConfirmModal('remove', ${admin.id})">Remove</button>
+                        ` : ''}
+                        ${canReactivate ? `
+                            <button class="btn btn-success" onclick="showConfirmModal('reactivate', ${admin.id})">Reactivate</button>
+                            <button class="btn btn-danger" onclick="showConfirmModal('remove', ${admin.id})">Remove</button>
+                        ` : ''}
+                        ${admin.role === 'Super Admin' ? `
+                            <button class="btn btn-warning" disabled>Protected Account</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function createEmptyState() {
+            return `
+                <div class="empty-state">
+                    <div class="empty-state-icon">👥</div>
+                    <div class="empty-state-title">No Administrators Available</div>
+                    <div class="empty-state-message">No administrators have been added to the system yet. When admins are added, you can manage their accounts here.</div>
+                </div>
+            `;
+        }
+
+        function renderAdmins(adminList = null) {
+            if (!adminList) {
+                adminList = admins.filter(admin => {
+                    if (currentFilter === 'active') return admin.status === 'active';
+                    if (currentFilter === 'inactive') return admin.status === 'inactive';
+                    return true;
+                });
+            }
+                        
+            const adminGrid = document.getElementById('adminGrid');
+            
+            if (adminList.length === 0) {
+                adminGrid.innerHTML = createEmptyState();
+            } else {
+                adminGrid.innerHTML = adminList.map(admin => createAdminCard(admin)).join('');
+            }
+        }
+
+        function filterAdmins(filter) {
+            currentFilter = filter;
+                        
+            // Update filter tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+                        
+            renderAdmins();
+        }
+
+        function searchAdmins() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredAdmins = admins.filter(admin => {
+                const matchesSearch = admin.name.toLowerCase().includes(searchTerm) ||
+                                    admin.email.toLowerCase().includes(searchTerm) ||
+                                    admin.role.toLowerCase().includes(searchTerm);
+                                
+                if (currentFilter === 'active') return matchesSearch && admin.status === 'active';
+                if (currentFilter === 'inactive') return matchesSearch && admin.status === 'inactive';
+                return matchesSearch;
+            });
+                        
+            renderAdmins(filteredAdmins);
+        }
+
+        function showConfirmModal(action, adminId) {
+            currentAction = action;
+            currentAdminId = adminId;
+                        
+            const admin = admins.find(a => a.id === adminId);
+            const modal = document.getElementById('confirmModal');
+            const modalIcon = document.getElementById('modalIcon');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const confirmBtn = document.getElementById('confirmBtn');
+                        
+            switch (action) {
+                case 'suspend':
+                    modalIcon.textContent = '⏸️';
+                    modalTitle.textContent = 'Suspend Administrator';
+                    modalMessage.textContent = `Are you sure you want to suspend ${admin.name}? They will lose access to the admin panel but their account will remain in the system.`;
+                    confirmBtn.textContent = 'Suspend';
+                    confirmBtn.className = 'btn btn-warning';
+                    break;
+                case 'remove':
+                    modalIcon.textContent = '🗑️';
+                    modalTitle.textContent = 'Remove Administrator';
+                    modalMessage.textContent = `Are you sure you want to permanently remove ${admin.name}? This action cannot be undone and all their data will be deleted.`;
+                    confirmBtn.textContent = 'Remove';
+                    confirmBtn.className = 'btn btn-danger';
+                    break;
+                case 'reactivate':
+                    modalIcon.textContent = '✅';
+                    modalTitle.textContent = 'Reactivate Administrator';
+                    modalMessage.textContent = `Are you sure you want to reactivate ${admin.name}? They will regain access to the admin panel.`;
+                    confirmBtn.textContent = 'Reactivate';
+                    confirmBtn.className = 'btn btn-success';
+                    break;
+            }
+                        
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+            document.getElementById('reasonInput').value = '';
+            currentAction = null;
+            currentAdminId = null;
+        }
+
+        function confirmAction() {
+            const reason = document.getElementById('reasonInput').value.trim();
+            
+            if (!reason) {
+                alert('Please provide a reason for this action.');
+                return;
+            }
+
+            const admin = admins.find(a => a.id === currentAdminId);
+            
+            switch (currentAction) {
+                case 'suspend':
+                    admin.status = 'inactive';
+                    alert(`${admin.name} has been suspended. Reason: ${reason}`);
+                    break;
+                case 'remove':
+                    const index = admins.findIndex(a => a.id === currentAdminId);
+                    admins.splice(index, 1);
+                    alert(`${admin.name} has been permanently removed. Reason: ${reason}`);
+                    break;
+                case 'reactivate':
+                    admin.status = 'active';
+                    alert(`${admin.name} has been reactivated. Reason: ${reason}`);
+                    break;
+            }
+            
+            closeModal();
+            renderAdmins();
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAdmins();
+                        
+            // Add search functionality
+            document.getElementById('searchInput').addEventListener('input', searchAdmins);
+            
+            // Add filter tab listeners
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    filterAdmins(this.dataset.filter);
+                });
+            });
+            
+            // Add confirm button listener
+            document.getElementById('confirmBtn').addEventListener('click', confirmAction);
+            
+            // Close modal when clicking outside
+            document.getElementById('confirmModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
