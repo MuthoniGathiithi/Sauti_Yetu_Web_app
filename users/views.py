@@ -19,11 +19,11 @@ super_admin_only = user_passes_test(lambda u: u.is_superuser)
 
 @super_admin_only
 def register_admin(request):
-    return render(request, 'users/register_admin.html')
+    return render(request, 'users/admin_registration_form.html')
 
 @super_admin_only
 def manage_roles(request):
-    return render(request, 'users/admin_roles_management.html')
+    return render(request, 'users/admin_role_management.html')
 
 @super_admin_only
 def remove_admin(request):
@@ -31,9 +31,9 @@ def remove_admin(request):
 
 @super_admin_only
 def view_admin_list(request):
-    return render(request, 'users/admin_list.html')
+    return render(request, 'users/view_admins.html')
 
 @super_admin_only
 def view_activity_logs(request):
-    return render(request, 'users/view_system_activity.html')
+    return render(request, 'users/view_logs_activity.html')
 
