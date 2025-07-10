@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,25 +38,28 @@
             margin: 0 auto;
         }
 
-        .logo {
+        .logo-section {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            color: white;
+            text-decoration: none;
             font-size: 1.5rem;
             font-weight: bold;
         }
 
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
+        .logo-text:hover {
+            opacity: 0.9;
         }
 
         .nav-links {
@@ -308,20 +313,22 @@
 <body>
     <nav class="navbar">
         <div class="navbar-content">
-            <div class="logo">
-                <div class="logo-icon">LOGO</div>
-                <span>SautiYetu</span>
-            </div>
+            
+                <div class="logo-section">
+                    <img src="{% static 'images/Gemini_Generated_Image_i3f2d6i3f2d6i3f2.png' %}" alt="Sauti Yetu Logo - Empowering Kenyan Women" class="logo-img">
+                    <a href="{% url 'home' %}" class="logo-text">SautiYetu</a>
+                </div>
+
+
+
+
             <div class="nav-links">
                 <a href="{% url 'super_admin_dashboard' %}">Dashboard</a>
                 <a href="{% url 'admin_list' %}">Admins</a>
                 <a href="{% url 'admin_reports' %}">Reports</a>
                 <a href="{% url 'admin_settings' %}">Settings</a>
             </div>
-            <div class="user-menu">
-                <span>Super Admin</span>
-                <div class="user-avatar">SA</div>
-            </div>
+            
         </div>
     </nav>
 
