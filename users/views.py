@@ -7,6 +7,8 @@ from reports.models import Report
 from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 # Public landing page
@@ -37,3 +39,30 @@ def view_admin_list(request):
 def view_activity_logs(request):
     return render(request, 'users/view_logs_activity.html')
 
+@login_required
+def admin_dashboard(request):
+    return render(request, 'users/super_admin_dashboard.html')
+
+# ✅ Super Admin Login View
+def super_admin_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.is_superuser:
+            login(request, user)
+            return redirect('super_admin_dashboard')  # or wherever you want to redirect super admin
+        else:
+            messages.error(request, 'Invalid credentials or not a superuser.')
+
+    return render(request, 'users/super_admin_login_form.html')
+
+@super_admin_only
+def admin_settings(request):
+    return render(request, 'users/admin_settings.html')
+
+@super_admin_only
+def admin_reports(request):
+    return render(request, 'users/admin_reports.html')

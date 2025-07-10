@@ -23,7 +23,7 @@ from users.views import landing_page
 urlpatterns = [
     path('', landing_page, name='home'),  # Make landing page the root URL
     path('admin/', admin.site.urls),
-    path('', include('users.urls')),
+    path('users/', include('users.urls')),
     path('reports/', include('reports.urls')),  # Add this line
     path('resources/', include(('resources.urls', 'resources'), namespace='resources')),
 

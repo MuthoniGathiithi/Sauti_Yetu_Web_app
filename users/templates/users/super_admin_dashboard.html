@@ -351,43 +351,43 @@
         </div>
 
         <div class="dashboard-grid">
-            <div class="dashboard-card" onclick="window.location.href='{% url \'admin_register\' %}'">
+            <div class="dashboard-card" onclick="window.location.href='{% url 'register_admin' %}'">
                 <div class="card-icon"></div>
                 <h3 class="card-title">Register New Admin</h3>
                 <p class="card-description">Add new administrators to the system with specific roles and permissions</p>
             </div>
-
-            <div class="dashboard-card" onclick="window.location.href='{% url \'admin_list\' %}'">
+        
+            <div class="dashboard-card" onclick="window.location.href='{% url 'admin_list' %}'">
                 <div class="card-icon"></div>
                 <h3 class="card-title">View List of Admins</h3>
                 <p class="card-description">See all registered administrators, their roles, and current status</p>
             </div>
-
-            <div class="dashboard-card" onclick="window.location.href='{% url \'admin_roles\' %}'">
+        
+            <div class="dashboard-card" onclick="window.location.href='{% url 'admin_roles' %}'">
                 <div class="card-icon"></div>
                 <h3 class="card-title">Assign or Update Admin Roles</h3>
                 <p class="card-description">Modify administrator permissions and update their system access levels</p>
             </div>
-
-            <div class="dashboard-card" onclick="window.location.href='{% url \'admin_manage\' %}'">
+        
+            <div class="dashboard-card" onclick="window.location.href='{% url 'admin_manage' %}'">
                 <div class="card-icon"></div>
                 <h3 class="card-title">Deactivate or Remove Admins</h3>
                 <p class="card-description">Suspend or permanently remove administrator accounts from the system</p>
             </div>
-
-            <div class="dashboard-card" onclick="window.location.href='{% url \'admin_logs\' %}'">
+        
+            <div class="dashboard-card" onclick="window.location.href='{% url "admin_logs" %}'">
                 <div class="card-icon"></div>
                 <h3 class="card-title">View Logs & Activity</h3>
                 <p class="card-description">Monitor system activity, admin actions, and security events</p>
             </div>
-
-            <div class="dashboard-card" onclick="window.location.href='{% url \'admin_settings\' %}'">
+        
+            <div class="dashboard-card" onclick="window.location.href='{% url "admin_settings" %}'">
                 <div class="card-icon"></div>
                 <h3 class="card-title">System Settings</h3>
                 <p class="card-description">Configure global system settings and security parameters</p>
             </div>
         </div>
-
+        
         <div class="activity-section">
             <div class="activity-header">
                 <h3>Recent Activity</h3>

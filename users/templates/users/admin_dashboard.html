@@ -309,95 +309,64 @@
         </div>
 
         <!-- Quick Actions Section -->
-        <div class="actions-section">
-            <h3 class="actions-title">Quick Actions</h3>
-            <div class="actions-grid">
-                <!-- Super Admin - Full Access -->
-                {% if role == 'super_admin' %}
-                    <a href="/admin/reports/" class="action-btn">
-                        📋 Manage Reports
-                    </a>
-                    <a href="/admin/users/" class="action-btn">
-                        👥 User Management
-                    </a>
-                    <a href="/admin/analytics/" class="action-btn">
-                        📊 View Analytics
-                    </a>
-                    <a href="/admin/settings/" class="action-btn">
-                        ⚙️ System Settings
-                    </a>
-                    <a href="/admin/notifications/" class="action-btn">
-                        🔔 Notifications
-                    </a>
-                    <a href="/admin/backup/" class="action-btn">
-                        💾 Data Backup
-                    </a>
-                    <a href="/admin/audit-logs/" class="action-btn">
-                        📜 Audit Logs
-                    </a>
-                    <a href="/admin/admin-management/" class="action-btn">
-                        👨‍💼 Admin Management
-                    </a>
+<div class="actions-section">
+    <h3 class="actions-title">Quick Actions</h3>
+    <div class="actions-grid">
 
-                <!-- Admin - Most Features -->
-                {% elif role == 'admin' %}
-                    <a href="/admin/reports/" class="action-btn">
-                        📋 Manage Reports
-                    </a>
-                    <a href="/admin/users/" class="action-btn">
-                        👥 User Management
-                    </a>
-                    <a href="/admin/analytics/" class="action-btn">
-                        📊 View Analytics
-                    </a>
-                    <a href="/admin/notifications/" class="action-btn">
-                        🔔 Notifications
-                    </a>
-                    <a href="/admin/reports/export/" class="action-btn">
-                        📊 Export Reports
-                    </a>
+        <!-- Super Admin - Full Access -->
+        {% if role == 'super_admin' %}
+            <a href="{% url 'register_admin' %}" class="action-btn">
+                👨‍💼 Register New Admin
+            </a>
+            <a href="{% url 'admin_list' %}" class="action-btn">
+                👥 View Admin List
+            </a>
+            <a href="{% url 'manage_roles' %}" class="action-btn">
+                🧩 Manage Admin Roles
+            </a>
+            <a href="{% url 'remove_admin' %}" class="action-btn">
+                ❌ Deactivate Admin
+            </a>
+            <a href="{% url 'view_logs' %}" class="action-btn">
+                📜 View System Logs
+            </a>
 
-                <!-- Moderator - Content Management -->
-                {% elif role == 'moderator' %}
-                    <a href="/admin/reports/" class="action-btn">
-                        📋 Manage Reports
-                    </a>
-                    <a href="/admin/reports/review/" class="action-btn">
-                        🔍 Review Reports
-                    </a>
-                    <a href="/admin/users/view/" class="action-btn">
-                        👁️ View Users
-                    </a>
-                    <a href="/admin/notifications/" class="action-btn">
-                        🔔 Notifications
-                    </a>
+            {# Future Features (commented out until built) #}
+            {#
+            <a href="{% url 'manage_reports' %}" class="action-btn">📋 Manage Reports</a>
+            <a href="{% url 'user_management' %}" class="action-btn">👥 User Management</a>
+            <a href="{% url 'view_analytics' %}" class="action-btn">📊 View Analytics</a>
+            <a href="{% url 'system_settings' %}" class="action-btn">⚙️ System Settings</a>
+            <a href="{% url 'notifications' %}" class="action-btn">🔔 Notifications</a>
+            <a href="{% url 'data_backup' %}" class="action-btn">💾 Data Backup</a>
+            #}
 
-                <!-- Viewer - Read Only -->
-                {% elif role == 'viewer' %}
-                    <a href="/admin/reports/view/" class="action-btn">
-                        👁️ View Reports
-                    </a>
-                    <a href="/admin/analytics/view/" class="action-btn">
-                        📊 View Analytics
-                    </a>
-                    <a href="/admin/users/view/" class="action-btn">
-                        👁️ View Users
-                    </a>
+        <!-- Admin - Most Features -->
+        {% elif role == 'admin' %}
+            {# 
+            <a href="{% url 'manage_reports' %}" class="action-btn">📋 Manage Reports</a>
+            <a href="{% url 'user_management' %}" class="action-btn">👥 User Management</a>
+            <a href="{% url 'view_analytics' %}" class="action-btn">📊 View Analytics</a>
+            <a href="{% url 'notifications' %}" class="action-btn">🔔 Notifications</a>
+            <a href="{% url 'export_reports' %}" class="action-btn">📊 Export Reports</a>
+            #}
 
-                <!-- Support - Limited Access -->
-                {% elif role == 'support' %}
-                    <a href="/admin/reports/view/" class="action-btn">
-                        👁️ View Reports
-                    </a>
-                    <a href="/admin/users/support/" class="action-btn">
-                        🆘 User Support
-                    </a>
-                    <a href="/admin/notifications/" class="action-btn">
-                        🔔 Notifications
-                    </a>
-                    <a href="/admin/help-desk/" class="action-btn">
-                        💬 Help Desk
-                    </a>
+        <!-- Moderator - Content Management -->
+        {% elif role == 'moderator' %}
+            {#
+            <a href="{% url 'manage_reports' %}" class="action-btn">📋 Manage Reports</a>
+            <a href="{% url 'review_reports' %}" class="action-btn">🔍 Review Reports</a>
+            <a href="{% url 'view_users' %}" class="action-btn">👁️ View Users</a>
+            <a href="{% url 'notifications' %}" class="action-btn">🔔 Notifications</a>
+            #}
+
+        <!-- Viewer - Read Only -->
+        {% elif role == 'viewer' %}
+            {#
+            <a href="{% url 'view_reports' %}" class="action-btn">👁️ View Reports</a>
+            <a href="{% url 'view_analytics' %}" class="action-btn">📊 View Analytics</a>
+            <a href="{% url 'view_users' %}" class="action-btn">👁️ View Users</a>
+            #}
 
                 <!-- Default fallback for any other roles -->
                 {% else %}
