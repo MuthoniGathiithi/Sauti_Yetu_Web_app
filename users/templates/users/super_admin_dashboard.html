@@ -351,37 +351,37 @@
         </div>
 
         <div class="dashboard-grid">
-            <div class="dashboard-card" onclick="window.location.href='{% url 'register_admin' %}'">
+            <div class="dashboard-card" data-url="{% url 'register_admin' %}">
                 <div class="card-icon"></div>
                 <h3 class="card-title">Register New Admin</h3>
                 <p class="card-description">Add new administrators to the system with specific roles and permissions</p>
             </div>
         
-            <div class="dashboard-card" onclick="window.location.href='{% url 'admin_list' %}'">
+            <div class="dashboard-card" data-url="{% url 'admin_list' %}">
                 <div class="card-icon"></div>
                 <h3 class="card-title">View List of Admins</h3>
                 <p class="card-description">See all registered administrators, their roles, and current status</p>
             </div>
         
-            <div class="dashboard-card" onclick="window.location.href='{% url 'admin_roles' %}'">
+            <div class="dashboard-card" data-url="{% url 'manage_roles' %}">
                 <div class="card-icon"></div>
                 <h3 class="card-title">Assign or Update Admin Roles</h3>
                 <p class="card-description">Modify administrator permissions and update their system access levels</p>
             </div>
         
-            <div class="dashboard-card" onclick="window.location.href='{% url 'admin_manage' %}'">
+            <div class="dashboard-card" data-url="{% url 'remove_admin' %}">
                 <div class="card-icon"></div>
                 <h3 class="card-title">Deactivate or Remove Admins</h3>
                 <p class="card-description">Suspend or permanently remove administrator accounts from the system</p>
             </div>
         
-            <div class="dashboard-card" onclick="window.location.href='{% url "admin_logs" %}'">
+            <div class="dashboard-card" data-url="{% url 'view_logs' %}">
                 <div class="card-icon"></div>
                 <h3 class="card-title">View Logs & Activity</h3>
                 <p class="card-description">Monitor system activity, admin actions, and security events</p>
             </div>
         
-            <div class="dashboard-card" onclick="window.location.href='{% url "admin_settings" %}'">
+            <div class="dashboard-card" data-url="{% url 'admin_settings' %}">
                 <div class="card-icon"></div>
                 <h3 class="card-title">System Settings</h3>
                 <p class="card-description">Configure global system settings and security parameters</p>
@@ -404,7 +404,7 @@
 
     <script>
         function registerAdmin() {
-            window.location.href = '{% url "admin_register" %}';
+            window.location.href = '{% url "register_admin" %}';
         }
 
         function viewAdmins() {
@@ -412,15 +412,15 @@
         }
 
         function assignRoles() {
-            window.location.href = '{% url "admin_roles" %}';
+            window.location.href = '{% url "manage_roles" %}';
         }
 
         function deactivateAdmins() {
-            window.location.href = '{% url "admin_manage" %}';
+            window.location.href = '{% url "remove_admin" %}';
         }
 
         function viewLogs() {
-            window.location.href = '{% url "admin_logs" %}';
+            window.location.href = '{% url "view_logs" %}';
         }
 
         function systemSettings() {
@@ -433,6 +433,16 @@
             cards.forEach((card, index) => {
                 card.style.animationDelay = `${index * 0.1}s`;
                 card.style.animation = 'slideInUp 0.6s ease forwards';
+            });
+        });
+
+        // Add card click handlers
+        document.querySelectorAll('.dashboard-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const url = this.getAttribute('data-url');
+                if (url) {
+                    window.location.href = url;
+                }
             });
         });
 
