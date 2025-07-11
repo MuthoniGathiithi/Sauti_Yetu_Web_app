@@ -19,9 +19,33 @@ def landing_page(request):
 # ✅ Super Admin Only Views
 super_admin_only = user_passes_test(lambda u: u.is_superuser)
 
+from django.contrib import messages
+from django.shortcuts import render, redirect
+
 @super_admin_only
 def register_admin(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        role = request.POST.get('role')
+
+        # TODO: Save admin logic goes here (e.g., create user in DB)
+        # For now, just print or simulate success
+        print("Received:", name, email)
+
+        # Send success feedback
+        messages.success(request, "Admin registered successfully!")
+
+        # Redirect to dashboard or form again
+        return redirect('super_admin_dashboard')
+
     return render(request, 'users/admin_registration_form.html')
+
+
+
+
 
 @super_admin_only
 def manage_roles(request):
