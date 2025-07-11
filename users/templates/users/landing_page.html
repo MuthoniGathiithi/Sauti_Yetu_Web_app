@@ -702,13 +702,11 @@
                     <a href="{% url 'home' %}" class="logo-text">SautiYetu</a>
                 </div>
                 <div class="nav-buttons">
-                    <a href="{% url 'home' %}" class="nav-btn active">Home</a>
-                    <a href="{% url 'reports:report_form' %}" class="nav-btn">Report</a>
-                    <a href="{% url 'resources:resources' %}" class="nav-btn">Resources</a>
-                    <a href="{% url 'resources:help' %}" class="nav-btn">Help</a>
-                    <a href="{% url 'resources:about' %}" class="nav-btn">About</a>
-                    
-
+                    <a href="{% url 'home' %}" class="nav-btn {% if request.path == '/' %}active{% endif %}">Home</a>
+                    <a href="{% url 'reports:report_form' %}" class="nav-btn {% if 'reports' in request.path %}active{% endif %}">Report</a>
+                    <a href="{% url 'resources:resources' %}" class="nav-btn {% if 'resources' in request.path and 'help' not in request.path and 'about' not in request.path %}active{% endif %}">Resources</a>
+                    <a href="{% url 'resources:help' %}" class="nav-btn {% if 'help' in request.path %}active{% endif %}">Help</a>
+                    <a href="{% url 'resources:about' %}" class="nav-btn {% if 'about' in request.path %}active{% endif %}">About</a>
                 </div>
                 <div class="language-toggle">
                     <a href="#" class="lang-btn active">English</a>
