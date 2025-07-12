@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -69,7 +70,7 @@
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: url('/afraid-shocked-insecure-woman-trying-show-voice-be-brave-extend-arm-enough-stop-refusal-gesture-look-frightened-insecure-unconfident-rejecting-declining-offensive-proposal-yellow-background.jpg') center/cover no-repeat;
+            background: url("{% static 'images/afraid-shocked-insecure-woman-trying-show-voice-be-brave-extend-arm-enough-stop-refusal-gesture-look-frightened-insecure-unconfident-rejecting-declining-offensive-proposal-yellow-background.jpg' %}") center/cover no-repeat;
             /* Fallback color if image doesn't load */
             background-color: #4a5568;
             display: flex;
@@ -523,9 +524,9 @@
             <nav class="nav">
                 <a href="#home">Home</a>
                 <a href="#about">About</a>
-                <a href="#features">Features</a>
+                <a href="#report">Report</a>
+                <a href="#resources">Resources</a>
                 <a href="#support">Support</a>
-                <a href="#contact">Contact</a>
             </nav>
         </div>
     </header>
