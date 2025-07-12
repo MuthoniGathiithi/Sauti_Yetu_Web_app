@@ -26,11 +26,8 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1rem 0;
+            padding: 2rem 0;
+            background: transparent;
         }
 
         .header-content {
@@ -51,32 +48,45 @@
 
         .nav {
             display: flex;
-            gap: 2rem;
+            gap: 3rem;
         }
 
         .nav a {
             color: #fff;
             text-decoration: none;
             font-weight: 500;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #fff;
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
         }
 
         .nav a:hover {
-            color: #e2e8f0;
-            transform: translateY(-2px);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: url("{% static 'images/afraid-shocked-insecure-woman-trying-show-voice-be-brave-extend-arm-enough-stop-refusal-gesture-look-frightened-insecure-unconfident-rejecting-declining-offensive-proposal-yellow-background.jpg' %}") center/cover no-repeat;
-            /* Fallback color if image doesn't load */
+            background: url("{% static 'images/afraid-shocked-insecure-woman-trying-show-voice-be-brave-extend-arm-enough-stop-refusal-gesture-look-frightened-insecure-unconfident-rejecting-declining-offensive-proposal-yellow-background.jpg' %}") 80% center/cover no-repeat;
             background-color: #4a5568;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -88,25 +98,93 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+            background: linear-gradient(to right, 
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(0, 0, 0, 0.6) 40%,
+                rgba(0, 0, 0, 0.4) 70%,
+                rgba(0, 0, 0, 0.2) 100%
+            );
             z-index: 1;
+        }
+
+        /* Animated wave */
+        .wave-container {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 150px;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            left: -50%;
+            width: 200%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 C300,90 600,90 1200,0 L1200,120 L0,120 Z' fill='%23FFFFFF'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: center bottom;
+            background-size: 50% 100px;
+            animation: gentle-wave 20s linear infinite;
+        }
+
+        @keyframes gentle-wave {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(50%);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .wave-container {
+                height: 100px;
+            }
+
+            .wave {
+                background-size: 50% 60px;
+        }
         }
 
         .hero-content {
             position: relative;
-            z-index: 2;
-            max-width: 800px;
-            padding: 0 2rem;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 4rem;
+            text-align: left;
+            margin-left: 8%;
         }
 
         .hero h1 {
-            font-size: 5rem;
-            font-weight: 900;
+            font-size: 4.5rem;
+            font-weight: 800;
             color: #fff;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             line-height: 1.1;
-            letter-spacing: -2px;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-style: italic;
+            opacity: 0.95;
         }
 
         .hero-subtitle {
@@ -453,25 +531,36 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            .header {
+                padding: 1rem 0;
+        }
+
+            .nav {
+                gap: 1.5rem;
+        }
+
+            .nav a {
+                font-size: 1rem;
+        }
+
             .hero h1 {
-                font-size: 3.5rem;
-                letter-spacing: -1px;
+                font-size: 4rem;
             }
 
-            .hero-subtitle {
-                font-size: 1.4rem;
-            }
+            .hero h2 {
+                font-size: 2.5rem;
+        }
 
             .hero-cta {
                 padding: 1rem 2rem;
                 font-size: 1.1rem;
-            }
+        }
 
             .problem-grid,
             .solution-grid {
                 grid-template-columns: 1fr;
                 gap: 2rem;
-            }
+        }
 
             .image-placeholder {
                 height: 250px;
@@ -479,7 +568,7 @@
 
             .section-title {
                 font-size: 2rem;
-            }
+        }
 
             .nav {
                 display: none;
@@ -492,18 +581,40 @@
             .container {
                 padding: 0 1rem;
             }
+
+            .waves {
+                height: 150px;
+            }
+
+            .wave1 {
+                background-size: 50% 80px;
+            }
+
+            .wave2 {
+                background-size: 50% 100px;
+            }
+
+            .wave3 {
+                background-size: 50% 120px;
+            }
+
+            .hero-content {
+                padding: 0 2rem;
+                margin-left: 0;
+                text-align: center;
+            }
         }
 
         /* Animations */
         @keyframes fadeInUp {
             from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
+            opacity: 0;
+            transform: translateY(30px);
+        }
             to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            opacity: 1;
+            transform: translateY(0);
+        }
         }
 
         .fade-in-up {
@@ -534,9 +645,12 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <h1 class="fade-in-up">STOP</h1>
-            <p class="hero-subtitle fade-in-up">Report Anonymously</p>
-            <a href="#about" class="hero-cta fade-in-up">Get Help Now</a>
+            <h1 class="fade-in-up">STOP<br>GENDER-BASED<br>VIOLENCE</h1>
+            <h2 class="fade-in-up">Breaking The Silence Together</h2>
+            <a href="#report" class="hero-cta fade-in-up">Report Now</a>
+                </div>
+        <div class="wave-container">
+            <div class="wave"></div>
         </div>
     </section>
 
@@ -549,7 +663,7 @@
                 <p class="section-subtitle">
                     Gender-based violence affects millions of women and girls across Kenya. Many suffer in silence, trapped by fear, shame, and lack of safe reporting mechanisms.
                 </p>
-            </div>
+                </div>
         </section>
 
         <!-- Problem Section -->
@@ -569,8 +683,8 @@
                     <div class="image-placeholder">
                         <p>Insert your image here<br>GBV Statistics infographic or supportive community image</p>
                     </div>
+                    </div>
                 </div>
-            </div>
         </section>
 
         <!-- Solution Section -->
@@ -579,7 +693,7 @@
                 <div class="solution-grid">
                     <div class="image-placeholder">
                         <p>Insert your image here<br>Women empowerment or support network image</p>
-                    </div>
+            </div>
                     <div class="solution-content">
                         <h3>Our Solution</h3>
                         <p>SautiYetu bridges the gap between victims and help through technology, anonymity, and verified support networks.</p>
@@ -593,19 +707,19 @@
                             
                             <h4 style="color: #4a5568; font-weight: 700; margin-bottom: 1rem;">Healing Support</h4>
                             <p>Access self-help resources, support groups, and professional counseling. Start your healing journey with guidance from experienced survivors and experts.</p>
-                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Features Section -->
+    <!-- Features Section -->
         <section class="section features-section" id="features">
             <div class="container">
                 <h2 class="section-title">Platform Features</h2>
                 <p class="section-subtitle">Every feature is designed with your safety and anonymity as the top priority.</p>
-                
-                <div class="features-grid">
+            
+            <div class="features-grid">
                     <div class="feature-card">
                         <h4>Anonymous Reporting</h4>
                         <p>Submit detailed reports about incidents without revealing your identity. Our secure form ensures your story is heard while keeping you safe.</p>
@@ -613,7 +727,7 @@
                     <div class="feature-card">
                         <h4>Voice Recording</h4>
                         <p>Can't type your story? Record it instead. Voice messages are encrypted and processed securely by our trained support team.</p>
-                    </div>
+                </div>
                     <div class="feature-card">
                         <h4>Bilingual Interface</h4>
                         <p>Full support in English and Swahili with clear navigation and simple language. No barrier should prevent you from getting help.</p>
@@ -621,7 +735,7 @@
                     <div class="feature-card">
                         <h4>Resource Library</h4>
                         <p>Access legal information, safety planning guides, and self-help resources. All content is reviewed by experts and updated regularly.</p>
-                    </div>
+                </div>
                     <div class="feature-card">
                         <h4>No Tracking</h4>
                         <p>We don't track your IP address, location, or any personal data. Your visit to our platform is completely private and secure.</p>
@@ -629,59 +743,59 @@
                     <div class="feature-card">
                         <h4>Community Support</h4>
                         <p>Connect with support groups and other survivors (anonymously). Share experiences and find strength in community.</p>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- How It Works Section -->
+    <!-- How It Works Section -->
         <section class="section how-it-works">
             <div class="container">
                 <h2 class="section-title">How It Works</h2>
                 <p class="section-subtitle">Getting help through SautiYetu is simple, safe, and completely anonymous.</p>
-                
-                <div class="steps-grid">
+            
+            <div class="steps-grid">
                     <div class="step-card">
-                        <div class="step-number">1</div>
+                    <div class="step-number">1</div>
                         <h4>Access Platform</h4>
                         <p>Visit SautiYetu from any device. No registration or login required. Your privacy is protected from the moment you arrive.</p>
-                    </div>
+                </div>
                     <div class="step-card">
-                        <div class="step-number">2</div>
+                    <div class="step-number">2</div>
                         <h4>Choose Language</h4>
                         <p>Select English or Swahili. The entire platform adapts to your preferred language for better understanding.</p>
-                    </div>
+                </div>
                     <div class="step-card">
-                        <div class="step-number">3</div>
+                    <div class="step-number">3</div>
                         <h4>Share Your Story</h4>
                         <p>Fill out the secure form or record a voice message. Share as much or as little as you're comfortable with.</p>
-                    </div>
+                </div>
                     <div class="step-card">
                         <div class="step-number">4</div>
                         <h4>Get Support</h4>
                         <p>Access resources immediately or choose to receive follow-up support from our trained counselors and partner organizations.</p>
-                    </div>
-                </div>
+            </div>
+        </div>
                 
                 <div style="margin-top: 3rem; text-align: center;">
                     <div class="image-placeholder" style="max-width: 600px; margin: 0 auto;">
                         <p>Insert your image here<br>Step-by-step process diagram or user journey illustration</p>
-                    </div>
-                </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
         <!-- Support Resources Section -->
         <section class="section support-section" id="support">
             <div class="container">
                 <h2 class="section-title">Support Resources</h2>
                 <p class="section-subtitle">Get immediate help, access counseling, or connect with trusted partners ready to support you through your journey.</p>
-                
-                <div class="support-grid">
+            
+            <div class="support-grid">
                     <div class="support-card">
                         <h4>24/7 Helpline</h4>
                         <p>Call 1195 or 0719 638 006 for confidential support anytime. You're not alone — help is one call away.</p>
-                    </div>
+                </div>
                     <div class="support-card">
                         <h4>Legal Assistance</h4>
                         <p>Know your rights and receive guidance from certified legal professionals working with our network.</p>
@@ -689,10 +803,10 @@
                     <div class="support-card">
                         <h4>Community Organizations</h4>
                         <p>Get connected with NGOs and shelters that provide safety, empowerment, and reintegration support.</p>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     </main>
 
     <!-- Footer -->
@@ -706,9 +820,9 @@
                 <a href="#terms">Terms of Service</a>
                 <a href="#contact">Contact Us</a>
                 <a href="#resources">Resources</a>
-            </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
     <script>
         // Smooth scrolling for navigation links
@@ -742,8 +856,8 @@
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(20px)';
                 card.style.transition = 'all 0.6s ease';
+                });
             });
-        });
     </script>
 </body>
 </html>
