@@ -1,1411 +1,380 @@
-{% extends 'base.html' %}
 {% load static %}
 
-{% block title %}About SautiYetu - Breaking the Silence on Gender-Based Violence in Kenya{% endblock %}
-
-{% block extra_css %}
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        background: linear-gradient(135deg, #8B4A9C 0%, #6A4C93 25%, #4A5DAE 50%, #3A7BD5 75%, #2E86C1 100%);
-        min-height: 100vh;
-        color: rgba(255, 255, 255, 0.95);
-        position: relative;
-        overflow-x: hidden;
-    }
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background:
-            radial-gradient(circle at 20% 80%, rgba(139, 74, 156, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(46, 134, 193, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(106, 76, 147, 0.2) 0%, transparent 50%);
-        pointer-events: none;
-        z-index: -1;
-    }
-
-    /* Floating Particles Animation */
-    .particles {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: -1;
-    }
-    .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        animation: float 20s infinite linear;
-    }
-    @keyframes float {
-        0% {
-            transform: translateY(100vh) rotate(0deg);
-            opacity: 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - SautiYetu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        10% {
-            opacity: 1;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #8B4A9C 0%, #6A4C93 25%, #4A5DAE 50%, #3A7BD5 75%, #2E86C1 100%);
+            min-height: 100vh;
+            color: rgba(255, 255, 255, 0.95);
+            position: relative;
+            overflow-x: hidden;
         }
-        90% {
-            opacity: 1;
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(139, 74, 156, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(46, 134, 193, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(106, 76, 147, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
-        100% {
-            transform: translateY(-100px) rotate(360deg);
-            opacity: 0;
-        }
-    }
-
-    /* Wave Animation */
-    .wave-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100px;
-        pointer-events: none;
-        z-index: -1;
-    }
-    .wave {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 200%;
-        height: 100px;
-        background: linear-gradient(45deg, rgba(139, 74, 156, 0.1), rgba(46, 134, 193, 0.1));
-        border-radius: 100% 100% 0 0;
-        animation: wave 10s infinite linear;
-    }
-    .wave:nth-child(2) {
-        animation-delay: -5s;
-        opacity: 0.5;
-    }
-    @keyframes wave {
-        0% {
-            transform: translateX(-50%);
-        }
-        100% {
-            transform: translateX(0%);
-        }
-    }
-
-    /* Scroll Animations */
-    .fade-in {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out;
-    }
-    .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .slide-in-left {
-        opacity: 0;
-        transform: translateX(-50px);
-        transition: all 0.8s ease-out;
-    }
-    .slide-in-left.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    .slide-in-right {
-        opacity: 0;
-        transform: translateX(50px);
-        transition: all 0.8s ease-out;
-    }
-    .slide-in-right.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-    }
-
-    /* Header */
-    .header {
-        padding: 20px 0;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-        background: rgba(139, 74, 156, 0.15);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    }
-    .header.scrolled {
-        background: rgba(139, 74, 156, 0.25);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    }
-    .nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .logo-section {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        margin-right: auto;
-    }
-    .logo-img {
-        width: 85px;
-        height: 85px;
-        object-fit: contain;
-        border-radius: 0;
-        background: transparent;
-        box-shadow: none;
-        border: none;
-        padding: 0;
-        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-        transition: transform 0.3s ease, filter 0.3s ease;
-        margin: -10px;
-        display: block;
-        max-width: 100%;
-        transform-origin: center;
-    }
-    .logo-img:hover {
-        transform: translateY(-2px) scale(1.02);
-        filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.15));
-    }
-    .logo-text {
-        font-size: 28px;
-        font-weight: 800;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-decoration: none;
-        letter-spacing: -0.5px;
-        margin-left: -5px;
-    }
-    .nav-buttons {
-        display: flex;
-        gap: 10px;
-        margin: 0 40px;
-    }
-    .nav-btn {
-        color: rgba(255, 255, 255, 0.9);
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 16px;
-        padding: 12px 24px;
-        border-radius: 30px;
-        transition: all 0.3s ease;
-        letter-spacing: 0.5px;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        position: relative;
-        overflow: hidden;
-    }
-    .nav-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        transition: left 0.5s;
-    }
-    .nav-btn:hover::before {
-        left: 100%;
-    }
-    .nav-btn:hover {
-        background: rgba(255, 255, 255, 0.15);
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-    .nav-btn.active {
-        background: linear-gradient(135deg, rgba(139, 74, 156, 0.3), rgba(106, 76, 147, 0.3));
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .language-toggle {
-        display: flex;
-        gap: 5px;
-    }
-    .lang-btn {
-        padding: 8px 16px;
-        border-radius: 20px;
-        color: rgba(255, 255, 255, 0.9);
-        text-decoration: none;
-        transition: all 0.3s ease;
-        font-weight: 600;
-        font-size: 14px;
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .lang-btn.active {
-        background: linear-gradient(135deg, rgba(139, 74, 156, 0.3), rgba(106, 76, 147, 0.3));
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    /* About Page Specific Styles */
-    .about-section {
-        padding-top: 140px;
-        padding-bottom: 60px;
-    }
-
-    .page-header {
-        text-align: center;
-        margin-bottom: 80px;
-    }
-
-    .page-header h1 {
-        font-size: 48px;
-        font-weight: 800;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .page-header p {
-        font-size: 20px;
-        color: rgba(255, 255, 255, 0.9);
-        max-width: 700px;
-        margin: 0 auto;
-        line-height: 1.8;
-    }
-
-    /* Mission & Vision Section */
-    .mission-vision {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        margin-bottom: 80px;
-    }
-
-    .mission-card, .vision-card {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-        backdrop-filter: blur(25px);
-        border-radius: 25px;
-        padding: 50px 40px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .mission-card::before, .vision-card::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-        transform: scale(0);
-        transition: transform 0.6s ease;
-    }
-
-    .mission-card:hover::before, .vision-card:hover::before {
-        transform: scale(1);
-    }
-
-    .mission-card:hover, .vision-card:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
-    }
-
-    .mission-card h2, .vision-card h2 {
-        font-size: 32px;
-        font-weight: 800;
-        margin-bottom: 25px;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        position: relative;
-        z-index: 1;
-    }
-
-    .mission-card p, .vision-card p {
-        font-size: 18px;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.9);
-        position: relative;
-        z-index: 1;
-    }
-
-    /* Goals Section */
-    .goals-section {
-        background: linear-gradient(135deg, rgba(139, 74, 156, 0.15), rgba(106, 76, 147, 0.1));
-        backdrop-filter: blur(25px);
-        border-radius: 35px;
-        padding: 80px 40px;
-        margin: 80px 0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-    }
-
-    .goals-section h2 {
-        font-size: 36px;
-        font-weight: 800;
-        margin-bottom: 50px;
-        text-align: center;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .goals-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 30px;
-    }
-
-    .goal-item {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 35px 30px;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .goal-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-        transition: left 0.5s;
-    }
-
-    .goal-item:hover::before {
-        left: 100%;
-    }
-
-    .goal-item:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    .goal-number {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-        border-radius: 50%;
-        text-align: center;
-        line-height: 40px;
-        font-weight: 800;
-        font-size: 18px;
-        margin-bottom: 20px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .goal-item h4 {
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: 15px;
-        color: #fff;
-        position: relative;
-        z-index: 1;
-    }
-
-    .goal-item p {
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.6;
-        position: relative;
-        z-index: 1;
-    }
-
-    /* How It Works Section */
-    .how-it-works {
-        margin: 80px 0;
-    }
-
-    .how-it-works h2 {
-        font-size: 36px;
-        font-weight: 800;
-        margin-bottom: 50px;
-        text-align: center;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .process-steps {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 40px;
-    }
-
-    .process-step {
-        text-align: center;
-        position: relative;
-    }
-
-    .step-icon {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 36px;
-        margin: 0 auto 30px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-    }
-
-    .process-step:hover .step-icon {
-        transform: scale(1.1);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    }
-
-    .process-step h4 {
-        font-size: 22px;
-        font-weight: 700;
-        color: white;
-        margin-bottom: 15px;
-    }
-
-    .process-step p {
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.6;
-    }
-
-    /* Community Impact Section */
-    .community-impact {
-        background: linear-gradient(135deg, rgba(139, 74, 156, 0.15), rgba(106, 76, 147, 0.1));
-        backdrop-filter: blur(25px);
-        border-radius: 35px;
-        padding: 80px 40px;
-        margin: 80px 0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-    }
-
-    .community-impact h2 {
-        font-size: 36px;
-        font-weight: 800;
-        margin-bottom: 30px;
-        text-align: center;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .community-impact p {
-        font-size: 18px;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.9);
-        text-align: center;
-        max-width: 800px;
-        margin: 0 auto 50px;
-    }
-
-    .impact-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 30px;
-    }
-
-    .stat-item {
-        text-align: center;
-        padding: 30px 20px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        transition: all 0.3s ease;
-    }
-
-    .stat-item:hover {
-        background: rgba(255, 255, 255, 0.15);
-        transform: translateY(-5px);
-    }
-
-    .stat-number {
-        font-size: 48px;
-        font-weight: 800;
-        color: #fff;
-        margin-bottom: 10px;
-        display: block;
-    }
-
-    .stat-label {
-        font-size: 16px;
-        color: rgba(255, 255, 255, 0.9);
-        font-weight: 600;
-    }
-
-    /* Transparency Section */
-    .transparency-section {
-        margin: 80px 0;
-    }
-
-    .transparency-section h2 {
-        font-size: 36px;
-        font-weight: 800;
-        margin-bottom: 30px;
-        text-align: center;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .transparency-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        align-items: center;
-    }
-
-    .transparency-text {
-        font-size: 18px;
-        line-height: 1.8;
-        color: rgba(255, 255, 255, 0.9);
-    }
-
-    .transparency-text h4 {
-        font-size: 24px;
-        font-weight: 700;
-        color: #fff;
-        margin-bottom: 20px;
-    }
-
-    .transparency-features {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-        backdrop-filter: blur(20px);
-        border-radius: 25px;
-        padding: 40px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .transparency-features ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .transparency-features ul li {
-        margin-bottom: 15px;
-        padding-left: 30px;
-        position: relative;
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 16px;
-    }
-
-    .transparency-features ul li::before {
-        content: '✓';
-        position: absolute;
-        left: 0;
-        color: #4CAF50;
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    /* Single Hero Image Sections */
-    .hero-image-single {
-        margin: 80px 0;
-        display: flex;
-        justify-content: center;
-    }
-
-    .hero-image-container {
-        position: relative;
-        border-radius: 25px;
-        overflow: hidden;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        max-width: 600px;
-        width: 100%;
-    }
-
-    .hero-image-container:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
-    }
-
-    .hero-image-container img {
-        width: 100%;
-        height: 450px;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-
-    .hero-image-container:hover img {
-        transform: scale(1.05);
-    }
-
-    .hero-image-container:hover .image-overlay {
-        transform: translateY(0);
-    }
-
-    /* Transparency Image */
-    .transparency-image {
-        position: relative;
-        border-radius: 25px;
-        overflow: hidden;
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .transparency-image:hover {
-        transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 35px 70px rgba(0, 0, 0, 0.2);
-    }
-
-    .transparency-image img {
-        width: 100%;
-        height: 450px;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-
-    .transparency-image:hover img {
-        transform: scale(1.05);
-    }
-
-    .transparency-image:hover .image-overlay {
-        transform: translateY(0);
-    }
-
-    .transparency-features-full {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-        backdrop-filter: blur(20px);
-        border-radius: 25px;
-        padding: 40px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        margin-top: 40px;
-        grid-column: 1 / -1;
-    }
-
-    .transparency-features-full ul {
-        list-style: none;
-        padding: 0;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 15px;
-    }
-
-    .transparency-features-full ul li {
-        margin-bottom: 15px;
-        padding-left: 30px;
-        position: relative;
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 16px;
-    }
-
-    .transparency-features-full ul li::before {
-        content: '✓';
-        position: absolute;
-        left: 0;
-        color: #4CAF50;
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    @media (max-width: 991px) {
-        .hero-images-section {
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-        
-        .hero-image-left, .hero-image-right {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-        
-        .transparency-features-full ul {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    /* Call to Action */
-    .cta-section {
-        text-align: center;
-        margin: 80px 0;
-        padding: 60px 40px;
-        background: linear-gradient(135deg, rgba(139, 74, 156, 0.2), rgba(106, 76, 147, 0.15));
-        backdrop-filter: blur(25px);
-        border-radius: 35px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-    }
-
-    .cta-section h2 {
-        font-size: 36px;
-        font-weight: 800;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .cta-section p {
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 40px;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .cta-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
-
-    .btn-primary {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-        color: #6A4C93;
-        padding: 15px 35px;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 16px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        display: inline-block;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(135deg, rgba(139, 74, 156, 0.9), rgba(106, 76, 147, 0.9));
-        color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-secondary {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(20px);
-    }
-
-    .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-    }
-
-    /* Footer */
-    .footer {
-        background: linear-gradient(135deg, rgba(139, 74, 156, 0.2), rgba(106, 76, 147, 0.15));
-        backdrop-filter: blur(25px);
-        padding: 80px 0 40px;
-        margin-top: 80px;
-        border-top: 1px solid rgba(255, 255, 255, 0.15);
-        box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.05);
-    }
-    .footer-content {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 40px;
-    }
-    .footer-section h5 {
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 25px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .footer-section ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    .footer-section ul li {
-        margin-bottom: 15px;
-    }
-    .footer-section ul li a {
-        color: rgba(255, 255, 255, 0.8);
-        text-decoration: none;
-        transition: all 0.3s ease;
-        font-size: 15px;
-        position: relative;
-    }
-    .footer-section ul li a::before {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
-        transition: width 0.3s ease;
-    }
-    .footer-section ul li a:hover::before {
-        width: 100%;
-    }
-    .footer-section ul li a:hover {
-        color: white;
-        padding-left: 5px;
-    }
-    .footer-bottom {
-        text-align: center;
-        margin-top: 60px;
-        padding-top: 30px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        color: rgba(255, 255, 255, 0.8);
-    }
-
-    @media (max-width: 991px) {
-        .mission-vision {
-            grid-template-columns: 1fr;
-        }
-        .transparency-content {
-            grid-template-columns: 1fr;
-        }
-        .goals-grid {
-            grid-template-columns: 1fr;
-        }
-        .process-steps {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .footer-content {
-            grid-template-columns: repeat(2, 1fr);
+        .header {
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(139, 74, 156, 0.15);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         .nav {
-            flex-direction: column;
-            gap: 20px;
-        }
-        .nav-buttons {
-            margin: 20px 0;
-        }
-        .cta-buttons {
-            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
         }
-    }
-
-    @media (max-width: 576px) {
-        .footer-content {
-            grid-template-columns: 1fr;
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-right: auto;
+        }
+        .logo-img {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            padding: 0;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease, filter 0.3s ease;
+            margin: -10px;
+            display: block;
+            max-width: 100%;
+            transform-origin: center;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            margin-left: -5px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 0 40px;
+        }
+        .nav-btn {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 12px 24px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .nav-btn.active {
+            background: linear-gradient(135deg, rgba(139, 74, 156, 0.3), rgba(106, 76, 147, 0.3));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .language-toggle {
+            display: flex;
+            gap: 5px;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .lang-btn.active {
+            background: linear-gradient(135deg, rgba(139, 74, 156, 0.3), rgba(106, 76, 147, 0.3));
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .about-section {
+            padding: 120px 0 80px;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
         }
         .page-header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-header p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .mission-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 25px;
+            padding: 50px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .mission-section h2 {
             font-size: 36px;
+            margin-bottom: 30px;
+            color: white;
         }
-        .process-steps {
-            grid-template-columns: 1fr;
+        .mission-section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
         }
-        .impact-stats {
-            grid-template-columns: repeat(2, 1fr);
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
         }
-        .mission-card, .vision-card {
-            padding: 40px 30px;
+        .value-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .goals-section, .community-impact, .cta-section {
-            padding: 60px 30px;
+        .value-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
         }
-    }
-</style>
-{% endblock %}
-
-{% block content %}
-<!-- Floating Particles -->
-<div class="particles" id="particles"></div>
-    
-<!-- Wave Animation -->
-<div class="wave-container">
-    <div class="wave"></div>
-    <div class="wave"></div>
-</div>
-
-<!-- Header -->
-<header class="header" id="header">
-    <div class="container">
-        <nav class="nav">
-            <div class="logo-section">
-                <img src="/placeholder.svg?height=85&width=85" alt="Sauti Yetu Logo - Empowering Kenyan Women" class="logo-img">
-                <a href="#" class="logo-text">SautiYetu</a>
-            </div>
-            <div class="nav-buttons">
-                <a href="{% url 'resources:home' %}" class="nav-btn">Home</a>
-                <a href="{% url 'resources:report' %}" class="nav-btn">Report</a>
-                <a href="{% url 'resources:resources' %}" class="nav-btn">Resources</a>
-                <a href="{% url 'resources:help' %}" class="nav-btn">Help</a>
-                <a href="{% url 'resources:about' %}" class="nav-btn active">About</a>
-            </div>
-            <div class="language-toggle">
-                <a href="#" class="lang-btn active">English</a>
-                <a href="#" class="lang-btn">Kiswahili</a>
-            </div>
-        </nav>
-    </div>
-</header>
-
-<!-- About Section -->
-<section class="about-section">
-    <div class="container">
-        <!-- Page Header -->
-        <div class="page-header fade-in">
-            <h1><strong>About SautiYetu</strong></h1>
-            <p>Breaking the silence on gender-based violence in Kenya through technology, community partnership, and unwavering commitment to survivor safety and dignity.</p>
-        </div>
-
-        <!-- Mission & Vision -->
-        <div class="mission-vision">
-            <div class="mission-card slide-in-left">
-                <h2><strong>Our Mission</strong></h2>
-                <p>To create a safe, anonymous, and culturally appropriate platform that empowers Kenyan women and girls to report gender-based violence, access immediate support, and connect with trusted community resources while maintaining complete privacy and dignity.</p>
-            </div>
-            <div class="vision-card slide-in-right">
-                <h2><strong>Our Vision</strong></h2>
-                <p>A Kenya where every woman and girl can live free from violence, where silence is broken, voices are heard, and communities unite to create lasting change through transparency, support, and collective action.</p>
-            </div>
-        </div>
-
-        <!-- Hero Image After Mission & Vision -->
-        <div class="hero-image-single fade-in">
-            <div class="hero-image-container slide-in-left">
-                <img src="/placeholder.svg?height=450&width=600" alt="Kenyan women supporting each other in community" />
-                <div class="image-overlay">
-                    <h4>United in Purpose</h4>
-                    <p>Building a safer Kenya together, one voice at a time</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Goals Section -->
-        <div class="goals-section fade-in">
-            <h2><strong>Our Goals</strong></h2>
-            <div class="goals-grid">
-                <div class="goal-item">
-                    <div class="goal-number">1</div>
-                    <h4>Create Safe Anonymous Reporting</h4>
-                    <p>Design and launch a platform that allows victims to report abuse without revealing their identity, facing no fear of exposure or judgment.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">2</div>
-                    <h4>Break the Silence</h4>
-                    <p>Provide a culturally appropriate, easy-to-use outlet for women and girls — especially in rural and underrepresented areas — to speak out.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">3</div>
-                    <h4>Connect to Practical Help</h4>
-                    <p>Offer curated, localized guidance including immediate steps, NGO contacts, clinic information, and legal rights explained simply.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">4</div>
-                    <h4>Partner with Community Groups</h4>
-                    <p>Build a network of NGOs, churches, youth leaders, clinics, and chamas to promote the platform and offer follow-up support.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">5</div>
-                    <h4>Prioritize Privacy & Security</h4>
-                    <p>Build trust by ensuring no forced registration, no tracking of IP or location, and complete user control over shared information.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">6</div>
-                    <h4>Enable Community Response</h4>
-                    <p>Use anonymous data analytics to reveal patterns and help NGOs and government target support programs more effectively.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">7</div>
-                    <h4>Make Platform Inclusive</h4>
-                    <p>Include voice-recording options, icons, and Swahili instructions to help women who struggle with reading or using English.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">8</div>
-                    <h4>Scale Responsibly</h4>
-                    <p>Begin with a small, local launch, gather feedback from real users, and improve the tool before expanding nationally.</p>
-                </div>
-                <div class="goal-item">
-                    <div class="goal-number">9</div>
-                    <h4>Build Community Trust</h4>
-                    <p>Involve local women leaders, survivors, and helpers in shaping the platform to ensure it's truly their solution.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hero Image After Goals -->
-        <div class="hero-image-single fade-in">
-            <div class="hero-image-container slide-in-right">
-                <img src="/placeholder.svg?height=450&width=600" alt="Young Kenyan woman looking confidently forward" />
-                <div class="image-overlay">
-                    <h4>Empowered Voices</h4>
-                    <p>Every story matters, every voice has the power to create change</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- How It Works -->
-        <div class="how-it-works fade-in">
-            <h2><strong>How SautiYetu Works</strong></h2>
-            <div class="process-steps">
-                <div class="process-step">
-                    <div class="step-icon">🛡️</div>
-                    <h4>Anonymous & Secure</h4>
-                    <p>Report incidents without revealing your identity. No registration required, no tracking, complete privacy protection.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-icon">🤝</div>
-                    <h4>Immediate Connection</h4>
-                    <p>Get instantly connected to trusted support services, legal aid, medical help, and counseling resources in your area.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-icon">📊</div>
-                    <h4>Community Insights</h4>
-                    <p>Anonymous data helps identify patterns and trends, enabling better resource allocation and community protection strategies.</p>
-                </div>
-                <div class="process-step">
-                    <div class="step-icon">🌍</div>
-                    <h4>Cultural Sensitivity</h4>
-                    <p>Available in English and Kiswahili, with voice options and visual aids for accessibility across all literacy levels.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Community Impact -->
-        <div class="community-impact fade-in">
-            <h2><strong>Our Community Impact</strong></h2>
-            <p>SautiYetu is more than a reporting platform—it's a movement toward transparency, healing, and community-driven change. We work hand-in-hand with local organizations, survivors, and community leaders to create lasting impact.</p>
-            <div class="impact-stats">
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Support Available</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">100%</span>
-                    <span class="stat-label">Anonymous Reporting</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">2</span>
-                    <span class="stat-label">Languages Supported</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">∞</span>
-                    <span class="stat-label">Voices Empowered</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Transparency Section -->
-        <div class="transparency-section fade-in">
-            <h2><strong>Our Commitment to Transparency</strong></h2>
-            <div class="transparency-content">
-                <div class="transparency-text">
-                    <h4>Built with Community Co-Ownership</h4>
-                    <p>SautiYetu isn't just a tech solution—it's a community-owned platform shaped by the voices of survivors, local women leaders, and trusted organizations. We believe in transparency, accountability, and putting survivors first in every decision we make.</p>
-                    <p>Our approach prioritizes dignity, consent, and cultural sensitivity while leveraging technology to break down barriers that have historically silenced survivors of gender-based violence.</p>
-                </div>
-                <div class="transparency-image slide-in-right">
-                    <img src="/placeholder.svg?height=450&width=400" alt="Kenyan women leaders in discussion" />
-                    <div class="image-overlay">
-                        <h4>Leadership & Unity</h4>
-                        <p>Building solutions together</p>
-                    </div>
-                </div>
-            </div>
-            <div class="transparency-features-full">
-                <ul>
-                    <li>Open source development with community input</li>
-                    <li>Regular security audits and privacy assessments</li>
-                    <li>Survivor-centered design principles</li>
-                    <li>Partnership with established NGOs and support services</li>
-                    <li>Continuous feedback integration from users</li>
-                    <li>Transparent data usage policies</li>
-                    <li>Community advisory board oversight</li>
-                    <li>Regular impact reporting and accountability</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Call to Action -->
-        <div class="cta-section fade-in">
-            <h2><strong>Join the Movement</strong></h2>
-            <p>Whether you're a survivor seeking support, a community leader wanting to help, or an organization looking to partner with us, there's a place for you in the SautiYetu community.</p>
-            <div class="cta-buttons">
-                <a href="{% url 'resources:help' %}" class="btn-primary">Get Support Now</a>
-                <a href="{% url 'resources:resources' %}" class="btn-primary btn-secondary">Partner With Us</a>
-                <a href="{% url 'resources:about' %}" class="btn-primary btn-secondary">Learn More</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer fade-in">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h5>Quick Links</h5>
-                <ul>
-                    <li><a href="{% url 'reports:report_form' %}">Report Abuse</a></li>
-                    <li><a href="{% url 'resources:resources' %}">Support Resources</a></li>
-                    <li><a href="{% url 'resources:help' %}">Get Help</a></li>
-                    <li><a href="{% url 'resources:about' %}">About Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h5>Emergency Contacts</h5>
-                <ul>
-                    <li><a href="tel:999">Police: 999</a></li>
-                    <li><a href="tel:116">GVRC Hotline: 116</a></li>
-                    <li><a href="tel:0800720501">FIDA Kenya: 0800 720 501</a></li>
-                    <li><a href="tel:116">Childline: 116</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h5>Support Services</h5>
-                <ul>
-                    <li><a href="#">Legal Aid</a></li>
-                    <li><a href="#">Counseling Services</a></li>
-                    <li><a href="#">Safe Houses</a></li>
-                    <li><a href="#">Healthcare Support</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h5>Connect With Us</h5>
-                <ul>
-                    <li><a href="mailto:info@sautiyetu.org">info@sautiyetu.org</a></li>
-                    <li><a href="tel:+254700000000">+254 700 000 000</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 SautiYetu. Your safety and privacy are our priority.</p>
-            <p>This platform does not track or store personal information. All reports are anonymous.</p>
-        </div>
-    </div>
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Floating Particles Animation
-    function createParticles() {
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 50;
-        
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            // Random positioning and sizing
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.opacity = Math.random() * 0.5 + 0.2;
-            
-            // Random size variations
-            const size = Math.random() * 3 + 2;
-            particle.style.width = size + 'px';
-            particle.style.height = size + 'px';
-            
-            particlesContainer.appendChild(particle);
+        .value-item h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: white;
         }
-    }
-
-    // Scroll-triggered animations
-    function handleScrollAnimations() {
-        const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
-        
-        elements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < window.innerHeight - elementVisible) {
-                element.classList.add('visible');
+        .value-item p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .footer {
+            background: linear-gradient(135deg, rgba(139, 74, 156, 0.2), rgba(106, 76, 147, 0.15));
+            backdrop-filter: blur(25px);
+            padding: 80px 0 40px;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        .footer-section h5 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: white;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-section ul li {
+            margin-bottom: 15px;
+        }
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer-section ul li a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
             }
-        });
-    }
-
-    // Header scroll effect
-    function handleHeaderScroll() {
-        const header = document.getElementById('header');
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    }
-
-    // Enhanced button interactions
-    function enhanceButtonInteractions() {
-        const buttons = document.querySelectorAll('.btn-primary, .nav-btn, .lang-btn');
-        
-        buttons.forEach(button => {
-            button.addEventListener('mouseenter', function(e) {
-                const rect = e.target.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const ripple = document.createElement('span');
-                ripple.style.cssText = `
-                    position: absolute;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.3);
-                    transform: scale(0);
-                    animation: ripple 0.6s linear;
-                    left: ${x}px;
-                    top: ${y}px;
-                    width: 10px;
-                    height: 10px;
-                    margin-left: -5px;
-                    margin-top: -5px;
-                    pointer-events: none;
-                `;
-                
-                if (e.target.style.position !== 'relative') {
-                    e.target.style.position = 'relative';
-                }
-                
-                e.target.appendChild(ripple);
-                
-                setTimeout(() => {
-                    if (ripple.parentNode) {
-                        ripple.parentNode.removeChild(ripple);
-                    }
-                }, 600);
-            });
-        });
-    }
-
-    // Add ripple animation keyframes
-    function addRippleAnimation() {
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
             }
-        `;
-        document.head.appendChild(style);
-    }
-
-    // Enhanced hover effects for cards
-    function enhanceCardHovers() {
-        const cards = document.querySelectorAll('.mission-card, .vision-card, .goal-item, .process-step, .stat-item');
-        
-        cards.forEach(card => {
-            card.addEventListener('mousemove', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const deltaX = (x - centerX) / centerX;
-                const deltaY = (y - centerY) / centerY;
-                
-                this.style.transform = `
-                    perspective(1000px)
-                    rotateX(${deltaY * 2}deg)
-                    rotateY(${deltaX * 2}deg)
-                    translateY(-5px)
-                    scale(1.01)
-                `;
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-            });
-        });
-    }
-
-    // Staggered animation for goal items
-    function staggerGoalAnimations() {
-        const goalItems = document.querySelectorAll('.goal-item');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, index * 100);
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        goalItems.forEach((item, index) => {
-            item.style.opacity = '0';
-            item.style.transform = 'translateY(30px)';
-            item.style.transition = 'all 0.6s ease-out';
-            observer.observe(item);
-        });
-    }
-
-    // Initialize all animations and interactions
-    document.addEventListener('DOMContentLoaded', function() {
-        createParticles();
-        addRippleAnimation();
-        enhanceButtonInteractions();
-        enhanceCardHovers();
-        staggerGoalAnimations();
-        
-        // Initial check for visible elements
-        handleScrollAnimations();
-    });
-
-    // Event listeners for scroll effects
-    window.addEventListener('scroll', function() {
-        handleScrollAnimations();
-        handleHeaderScroll();
-    });
-
-    // Optimize scroll performance
-    let ticking = false;
-    function optimizedScroll() {
-        if (!ticking) {
-            requestAnimationFrame(function() {
-                handleScrollAnimations();
-                handleHeaderScroll();
-                ticking = false;
-            });
-            ticking = true;
+            .nav {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .nav-buttons {
+                margin: 20px 0;
+            }
+            .page-header h1 {
+                font-size: 36px;
+            }
         }
-    }
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo-section">
+                    <img src="{% static 'images/Gemini_Generated_Image_i3f2d6i3f2d6i3f2.png' %}" alt="Sauti Yetu Logo" class="logo-img">
+                    <a href="{% url 'home' %}" class="logo-text">SautiYetu</a>
+                </div>
+                <div class="nav-buttons">
+                    <a href="{% url 'home' %}" class="nav-btn">Home</a>
+                    <a href="{% url 'reports:report_form' %}" class="nav-btn">Report</a>
+                    <a href="{% url 'resources:resources' %}" class="nav-btn">Resources</a>
+                    <a href="{% url 'resources:help' %}" class="nav-btn">Help</a>
+                    <a href="{% url 'resources:about' %}" class="nav-btn active">About</a>
+                </div>
+                <div class="language-toggle">
+                    <a href="#" class="lang-btn active">English</a>
+                    <a href="#" class="lang-btn">Kiswahili</a>
+                </div>
+            </nav>
+        </div>
+    </header>
 
-    window.addEventListener('scroll', optimizedScroll);
-</script>
-{% endblock %}
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="page-header fade-in">
+                <h1><strong>About SautiYetu</strong></h1>
+                <p>Breaking the silence on gender-based violence in Kenya through technology, community partnership, and unwavering commitment to survivor safety and dignity.</p>
+            </div>
+
+            <div class="mission-section fade-in">
+                <h2>Our Mission</h2>
+                <p>SautiYetu exists to provide a safe, anonymous platform for reporting gender-based violence in Kenya. We aim to empower survivors, connect them with vital support services, and work towards ending the cycle of violence in our communities.</p>
+                <p>Through innovative technology and partnerships with trusted organizations, we're creating a network of support that prioritizes survivor safety, confidentiality, and dignity.</p>
+            </div>
+
+            <div class="values-grid fade-in">
+                <div class="value-item">
+                    <h3>Safety First</h3>
+                    <p>We prioritize the safety and security of survivors in everything we do, ensuring complete anonymity and confidentiality.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Empowerment</h3>
+                    <p>We believe in empowering survivors with information, resources, and support to make informed decisions about their journey to healing.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Community</h3>
+                    <p>We work closely with local organizations and communities to provide comprehensive support and create lasting change.</p>
+                </div>
+                <div class="value-item">
+                    <h3>Innovation</h3>
+                    <p>We leverage technology to make support services more accessible and reporting more secure for survivors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer fade-in">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="{% url 'reports:report_form' %}">Report Abuse</a></li>
+                        <li><a href="{% url 'resources:resources' %}">Support Resources</a></li>
+                        <li><a href="{% url 'resources:help' %}">Get Help</a></li>
+                        <li><a href="{% url 'resources:about' %}">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Emergency Contacts</h5>
+                    <ul>
+                        <li><a href="tel:999">Police: 999</a></li>
+                        <li><a href="tel:116">GVRC Hotline: 116</a></li>
+                        <li><a href="tel:0800720501">FIDA Kenya: 0800 720 501</a></li>
+                        <li><a href="tel:116">Childline: 116</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Support Services</h5>
+                    <ul>
+                        <li><a href="#">Legal Aid</a></li>
+                        <li><a href="#">Counseling Services</a></li>
+                        <li><a href="#">Safe Houses</a></li>
+                        <li><a href="#">Healthcare Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Connect With Us</h5>
+                    <ul>
+                        <li><a href="mailto:info@sautiyetu.org">info@sautiyetu.org</a></li>
+                        <li><a href="tel:+254700000000">+254 700 000 000</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SautiYetu. Your safety and privacy are our priority.</p>
+                <p>This platform does not track or store personal information. All reports are anonymous.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

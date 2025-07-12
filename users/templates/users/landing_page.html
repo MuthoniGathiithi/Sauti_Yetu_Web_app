@@ -1,13 +1,10 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SautiYetu - Anonymous Gender-Based Abuse Reporting & Support</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>SautiYetu - Anonymous Gender-Based Abuse Reporting & Support Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,102 +12,779 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #8B4A9C 0%, #6A4C93 25%, #4A5DAE 50%, #3A7BD5 75%, #2E86C1 100%);
-            min-height: 100vh;
-            color: rgba(255, 255, 255, 0.95);
-            position: relative;
+            color: #333;
             overflow-x: hidden;
         }
-        body::before {
-            content: '';
+        /* Header */
+        .header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(139, 74, 156, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(46, 134, 193, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(106, 76, 147, 0.2) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-
-        /* Floating Particles Animation */
-        .particles {
-            position: fixed;
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e40af;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .nav-links a:hover {
+            color: #1e40af;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #1e40af;
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .lang-toggle {
+            display: flex;
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 4px;
+        }
+        .lang-btn {
+            padding: 6px 12px;
+            border: none;
+            background: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .lang-btn.active {
+            background: white;
+            color: #1e40af;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+        }
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
+            right: 0;
+            width: 50%;
             height: 100%;
-            pointer-events: none;
-            z-index: -1;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(8, 145, 178, 0.1));
+            border-radius: 0 0 0 100px;
         }
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
         }
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
+        .hero-content {
+            z-index: 2;
+            position: relative;
         }
-
-        /* Wave Animation */
-        .wave-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(30, 64, 175, 0.1);
+            color: #1e40af;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #1f2937, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .btn-secondary {
+            background: white;
+            color: #1e40af;
+            border: 2px solid #1e40af;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: #1e40af;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e40af;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .hero-image {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-image-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-image-placeholder {
             width: 100%;
-            height: 100px;
-            pointer-events: none;
-            z-index: -1;
+            height: 400px;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
         }
-        .wave {
+        .hero-image-placeholder::before {
+            content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100px;
-            background: linear-gradient(45deg, rgba(139, 74, 156, 0.1), rgba(46, 134, 193, 0.1));
-            border-radius: 100% 100% 0 0;
-            animation: wave 10s infinite linear;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
         }
-        .wave:nth-child(2) {
-            animation-delay: -5s;
+        .hero-image-placeholder i {
+            font-size: 3rem;
             opacity: 0.5;
         }
-        @keyframes wave {
-            0% {
-                transform: translateX(-50%);
-            }
-            100% {
-                transform: translateX(0%);
-            }
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-badge {
+            display: inline-block;
+            background: rgba(30, 64, 175, 0.1);
+            color: #1e40af;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        .section-description {
+            font-size: 1.1rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+        }
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        .feature-description {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+        .steps-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        .step-description {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        .step-connector {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, #1e40af, #0891b2);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        .step-card:last-child .step-connector {
+            display: none;
+        }
+        /* Emergency Section */
+        .emergency {
+            padding: 40px 0;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
         }
 
-        /* Scroll Animations */
+        .emergency-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .emergency-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .emergency-text {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .emergency-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-description {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .emergency-contacts {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .emergency-contact {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            color: white;
+            text-align: center;
+            min-width: 80px;
+            transition: all 0.3s ease;
+        }
+
+        .emergency-contact:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .contact-number {
+            font-size: 1.1rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .contact-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+        /* Support Section */
+        .support {
+            padding: 80px 0;
+            background: white;
+        }
+        .support-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .support-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+        .support-content h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        .support-content p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        .support-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        .support-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: #374151;
+        }
+        .support-features li::before {
+            content: '✓';
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+        .support-image {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            border-radius: 16px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+        .support-image::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px dashed #d1d5db;
+            border-radius: 8px;
+        }
+        .support-image i {
+            font-size: 3rem;
+            opacity: 0.5;
+        }
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+        .about-content {
+            margin-top: 3rem;
+        }
+        .about-content p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        .about-values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+        .value-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+        .value-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+        .value-description {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #1e40af;
+        }
+
+        .emergency-footer {
+            margin: 2rem 0;
+        }
+
+        .emergency-footer h4 {
+            color: #f9fafb;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .emergency-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .emergency-numbers span {
+            color: #d1d5db;
+            font-size: 0.9rem;
+        }
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .footer-logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e40af, #0891b2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        .footer-description {
+            color: #d1d5db;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(30, 64, 175, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e40af;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-link:hover {
+            background: #1e40af;
+            color: white;
+            transform: translateY(-2px);
+        }
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-stats {
+                justify-content: center;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+            .emergency-contacts {
+                flex-direction: column;
+                align-items: center;
+            }
+            .step-connector {
+                display: none;
+            }
+            .about-values {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                gap: 1rem;
+            }
+            
+            .emergency-numbers {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        /* Animations */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s ease-out;
+            transition: all 0.8s ease;
         }
         .fade-in.visible {
             opacity: 1;
@@ -119,7 +793,7 @@
         .slide-in-left {
             opacity: 0;
             transform: translateX(-50px);
-            transition: all 0.8s ease-out;
+            transition: all 0.8s ease;
         }
         .slide-in-left.visible {
             opacity: 1;
@@ -128,952 +802,517 @@
         .slide-in-right {
             opacity: 0;
             transform: translateX(50px);
-            transition: all 0.8s ease-out;
+            transition: all 0.8s ease;
         }
         .slide-in-right.visible {
             opacity: 1;
             transform: translateX(0);
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
 
-        /* Header */
-        .header {
-            padding: 20px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            background: rgba(139, 74, 156, 0.15);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        .header.scrolled {
-            background: rgba(139, 74, 156, 0.25);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-right: auto;
-        }
-        .logo-img {
-            width: 85px;
-            height: 85px;
-            object-fit: contain;
-            border-radius: 0;
-            background: transparent;
-            box-shadow: none;
-            border: none;
-            padding: 0;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-            transition: transform 0.3s ease, filter 0.3s ease;
-            margin: -10px;
-            display: block;
-            max-width: 100%;
-            transform-origin: center;
-        }
-        .logo-img:hover {
-            transform: translateY(-2px) scale(1.02);
-            filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.15));
-        }
-        .logo-text {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-            margin-left: -5px;
-        }
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 0 40px;
-        }
-        .nav-btn {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            padding: 12px 24px;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            letter-spacing: 0.5px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s;
-        }
-        .nav-btn:hover::before {
-            left: 100%;
-        }
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-        .nav-btn.active {
-            background: linear-gradient(135deg, rgba(139, 74, 156, 0.3), rgba(106, 76, 147, 0.3));
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .language-toggle {
-            display: flex;
-            gap: 5px;
-        }
-        .lang-btn {
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .lang-btn.active {
-            background: linear-gradient(135deg, rgba(139, 74, 156, 0.3), rgba(106, 76, 147, 0.3));
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+/* Updated Footer Styles */
 
-        /* Home Section */
-        .home-section {
-            padding-top: 120px;
-            min-height: 100vh;
-        }
-        .hero-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            margin-bottom: 80px;
-        }
-        .hero-text h1 {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 30px;
-            line-height: 1.2;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-text p {
-            font-size: 20px;
-            margin-bottom: 40px;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        .hero-image {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-            border-radius: 25px;
-            height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(0);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-        }
+/* Updated Emergency Section */
 
-        /* Parallax effect for hero image */
-        .hero-image::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            transform: scale(0);
-            transition: transform 0.6s ease;
-        }
-        .hero-image:hover::before {
-            transform: scale(1);
-        }
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: inherit;
-            transition: transform 0.3s ease;
-            filter: none;
-            image-rendering: -webkit-optimize-contrast;
-        }
-        .hero-image:hover img {
-            transform: scale(1.03);
-        }
-        .btn-white {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-            color: #6A4C93;
-            padding: 15px 35px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 16px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-white::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(139, 74, 156, 0.3) 0%, transparent 70%);
-            transition: all 0.3s ease;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .btn-white:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-        .btn-outline {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            margin-left: 15px;
-            backdrop-filter: blur(20px);
-        }
-        .btn-white:hover {
-            background: linear-gradient(135deg, rgba(139, 74, 156, 0.9), rgba(106, 76, 147, 0.9));
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        /* Progress Indicator */
-        .progress-section {
-            padding: 80px 0;
-            text-align: center;
-            margin: 40px 0;
-        }
-        .progress-title {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .progress-subtitle {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 60px;
-        }
-        .progress-steps {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-        .step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            max-width: 200px;
-            position: relative;
-        }
-        .step-number {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        .step:hover .step-number {
-            transform: scale(1.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-        .step-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 10px;
-        }
-        .step-description {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.5;
-        }
-        .step-connector {
-            position: absolute;
-            top: 40px;
-            right: -40px;
-            width: 40px;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-        }
-        .step:last-child .step-connector {
-            display: none;
-        }
-
-        /* Features Section */
-        .features-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, rgba(139, 74, 156, 0.15), rgba(106, 76, 147, 0.1));
-            backdrop-filter: blur(25px);
-            border-radius: 35px;
-            margin: 40px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            padding: 20px;
-        }
-        .feature-item {
-            text-align: center;
-            padding: 40px 30px;
-            border-radius: 25px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-        }
-        .feature-item::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            transform: scale(0);
-            transition: transform 0.6s ease;
-        }
-        .feature-item:hover::before {
-            transform: scale(1);
-        }
-        .feature-item:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
-        }
-        .feature-item h3 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            z-index: 1;
-        }
-        .feature-item p {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 16px;
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Emergency Notice */
-        .emergency-notice {
-            background: linear-gradient(135deg, rgba(139, 74, 156, 0.2), rgba(106, 76, 147, 0.15));
-            backdrop-filter: blur(25px);
-            border-radius: 25px;
-            padding: 40px;
-            margin: 60px auto;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 800px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .emergency-notice::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            animation: shimmer 3s infinite;
-        }
-        @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-        .emergency-notice h3 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            position: relative;
-            z-index: 1;
-        }
-        .emergency-notice p {
-            font-size: 18px;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Footer */
-        .footer {
-            background: linear-gradient(135deg, rgba(139, 74, 156, 0.2), rgba(106, 76, 147, 0.15));
-            backdrop-filter: blur(25px);
-            padding: 80px 0 40px;
-            margin-top: 80px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.05);
-        }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-        }
-        .footer-section h5 {
-            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .footer-section ul li {
-            margin-bottom: 15px;
-        }
-        .footer-section ul li a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 15px;
-            position: relative;
-        }
-        .footer-section ul li a::before {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
-            transition: width 0.3s ease;
-        }
-        .footer-section ul li a:hover::before {
-            width: 100%;
-        }
-        .footer-section ul li a:hover {
-            color: white;
-            padding-left: 5px;
-        }
-        .footer-bottom {
-            text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        @media (max-width: 991px) {
-            .hero-section {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .nav {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .logo-text {
-                margin-right: 0;
-            }
-            .nav-buttons {
-                margin: 20px 0;
-            }
-            .progress-steps {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .step-connector {
-                display: none;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            .hero-text h1 {
-                font-size: 40px;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Wave Animation -->
-    <div class="wave-container">
-        <div class="wave"></div>
-        <div class="wave"></div>
-    </div>
-
     <!-- Header -->
-    <header class="header" id="header">
-        <div class="container">
-            <nav class="nav">
-                <div class="logo-section">
-                    <img src="{% static 'images/Gemini_Generated_Image_i3f2d6i3f2d6i3f2.png' %}" alt="Sauti Yetu Logo - Empowering Kenyan Women" class="logo-img">
-                    <a href="{% url 'home' %}" class="logo-text">SautiYetu</a>
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
-                <div class="nav-buttons">
-                    <a href="{% url 'home' %}" class="nav-btn {% if request.path == '/' %}active{% endif %}">Home</a>
-                    <a href="{% url 'reports:report_form' %}" class="nav-btn {% if 'reports' in request.path %}active{% endif %}">Report</a>
-                    <a href="{% url 'resources:resources' %}" class="nav-btn {% if 'resources' in request.path and 'help' not in request.path and 'about' not in request.path %}active{% endif %}">Resources</a>
-                    <a href="{% url 'resources:help' %}" class="nav-btn {% if 'help' in request.path %}active{% endif %}">Help</a>
-                    <a href="{% url 'resources:about' %}" class="nav-btn {% if 'about' in request.path %}active{% endif %}">About</a>
-                </div>
-                <div class="language-toggle">
-                    <a href="#" class="lang-btn active">English</a>
-                    <a href="#" class="lang-btn">Kiswahili</a>
-                </div>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="/">Home</a>
+                <a href="/features">Features</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/support">Support</a>
+                <a href="/about">About</a>
             </nav>
+            
+            <div class="nav-actions">
+                <div class="lang-toggle">
+                    <button class="lang-btn active">EN</button>
+                    <button class="lang-btn">SW</button>
+                </div>
+                <a href="#report" class="btn-primary">Report Anonymously</a>
+            </div>
         </div>
     </header>
 
-    <!-- Home Section -->
-    <section class="home-section">
-        <div class="container">
-            <div class="hero-section">
-                <div class="hero-text slide-in-left">
-                    <h1><strong>Break the Silence,<br>Find Your Voice</strong></h1>
-                    <p>Your safe space to speak up, find support, and make a difference. We're here to listen, protect, and empower you every step of the way.</p>
-                    <div class="buttons">
-                        <a href="{% url 'reports:report_form' %}" class="btn-white">Report Anonymously</a>
-                        <a href="#" class="btn-white btn-outline">Get Help</a>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content slide-in-left">
+                <div class="hero-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    100% Anonymous & Secure
                 </div>
-                <div class="hero-image slide-in-right">
-                    <img src="{% static 'images/hero-friends.jpg' %}" alt="Four Best Friends Celebrating Together" style="width: 100%; height: 100%; object-fit: cover; border-radius: inherit;">
-                </div>
-            </div>
-
-            <!-- Progress Indicator Section -->
-            <div class="progress-section fade-in">
-                <h2 class="progress-title">How It Works</h2>
-                <p class="progress-subtitle">Simple, secure, and completely anonymous</p>
-                <div class="progress-steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-connector"></div>
-                        <h3 class="step-title">Report</h3>
-                        <p class="step-description">Share your experience safely and anonymously through our secure platform</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-connector"></div>
-                        <h3 class="step-title">Connect</h3>
-                        <p class="step-description">Get connected with trusted support services and resources in your area</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3 class="step-title">Heal</h3>
-                        <p class="step-description">Access ongoing support, counseling, and community resources for recovery</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="features-section fade-in">
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <h3><strong>100% Anonymous</strong></h3>
-                        <p>Report incidents without revealing your identity. Your privacy and security are our top priorities.</p>
-                    </div>
-                    <div class="feature-item">
-                        <h3><strong>24/7 Support</strong></h3>
-                        <p>Access immediate help and resources whenever you need them, day or night.</p>
-                    </div>
-                    <div class="feature-item">
-                        <h3><strong>Community Support</strong></h3>
-                        <p>Connect with trusted organizations and support services across Kenya.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="emergency-notice fade-in">
-                <h3><strong>In Immediate Danger?</strong></h3>
-                <p>
-                    <strong>Call 999 (Police) or 116 (Gender Violence Recovery Centre)</strong><br>
-                    Your safety is our priority. These services are available 24/7.
+                <h1 class="hero-title">Break the Silence,<br>Find Your Voice</h1>
+                <p class="hero-subtitle">
+                    A safe, anonymous platform for reporting gender-based abuse and accessing support services across Kenya. 
+                    Your privacy is our priority, your healing is our mission.
                 </p>
+                <div class="hero-actions">
+                    <a href="#report" class="btn-primary">
+                        <i class="fas fa-lock"></i> Report Anonymously
+                    </a>
+                    <a href="#support" class="btn-secondary">
+                        <i class="fas fa-hands-helping"></i> Get Support
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support Available</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Anonymous</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">2+</span>
+                        <span class="stat-label">Languages</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image slide-in-right">
+                <div class="hero-image-container">
+                    <div class="hero-image-placeholder">
+                        <i class="fas fa-image"></i>
+                        <div>
+                            <strong>Hero Image: Empowering Women Together</strong>
+                            <br><small>Suggested: Group of diverse Kenyan women supporting each other</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="section-header fade-in">
+                <span class="section-badge">Why Choose SautiYetu</span>
+                <h2 class="section-title">Built for Your Safety & Privacy</h2>
+                <p class="section-description">
+                    Every feature is designed with your safety in mind. Report anonymously, access resources, and get support without fear.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h3 class="feature-title">100% Anonymous Reporting</h3>
+                    <p class="feature-description">
+                        Share your story without revealing your identity. No names, phone numbers, or personal details required. Your privacy is absolutely protected.
+                    </p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3 class="feature-title">Bilingual Support</h3>
+                    <p class="feature-description">
+                        Available in English and Kiswahili with clear icons and simple language. Express yourself in the language you're most comfortable with.
+                    </p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="feature-title">Voice Message Option</h3>
+                    <p class="feature-description">
+                        Can't type your story? Record a voice message or upload an audio file. We understand that sometimes speaking is easier than writing.
+                    </p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="feature-title">24/7 Resource Access</h3>
+                    <p class="feature-description">
+                        Access helpline numbers, NGO contacts, legal information, and self-help resources anytime, day or night. Help is always available.
+                    </p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">No Tracking Technology</h3>
+                    <p class="feature-description">
+                        We don't track your IP address, location, or personal data. No login required, no cookies, no digital footprint. Your visit remains private.
+                    </p>
+                </div>
+                
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="feature-title">Community Support Network</h3>
+                    <p class="feature-description">
+                        Connect with verified NGOs, counselors, and support groups across Kenya. Find trusted help in your community when you're ready.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="steps-container">
+            <div class="section-header fade-in">
+                <span class="section-badge">Simple Process</span>
+                <h2 class="section-title">How SautiYetu Works</h2>
+                <p class="section-description">
+                    Three simple steps to report, connect, and heal. No pressure, no judgment, just support when you need it.
+                </p>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-connector"></div>
+                    <h3 class="step-title">Report Safely</h3>
+                    <p class="step-description">
+                        Share your experience through our secure, anonymous form. Type your story or record a voice message. No personal details required.
+                    </p>
+                </div>
+                
+                <div class="step-card fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-connector"></div>
+                    <h3 class="step-title">Access Resources</h3>
+                    <p class="step-description">
+                        Browse verified support services, legal information, and emergency contacts. Find help that's available in your area.
+                    </p>
+                </div>
+                
+                <div class="step-card fade-in">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Connect & Heal</h3>
+                    <p class="step-description">
+                        Choose if and when to connect with counselors or support groups. Take control of your healing journey at your own pace.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Section -->
+<section class="emergency">
+    <div class="emergency-container">
+        <div class="emergency-content">
+            <div class="emergency-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="emergency-text">
+                <h3 class="emergency-title">In Immediate Danger?</h3>
+                <p class="emergency-description">Contact emergency services immediately</p>
+            </div>
+            <div class="emergency-contacts">
+                <a href="tel:999" class="emergency-contact">
+                    <span class="contact-number">999</span>
+                    <span class="contact-label">Police</span>
+                </a>
+                <a href="tel:1195" class="emergency-contact">
+                    <span class="contact-number">1195</span>
+                    <span class="contact-label">GBV Helpline</span>
+                </a>
+                <a href="tel:116" class="emergency-contact">
+                    <span class="contact-number">116</span>
+                    <span class="contact-label">Child Helpline</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Support Section -->
+    <section class="support" id="support">
+        <div class="support-container">
+            <div class="section-header fade-in">
+                <span class="section-badge">Professional Support</span>
+                <h2 class="section-title">Comprehensive Support Services</h2>
+                <p class="section-description">
+                    Access a network of verified professionals and organizations dedicated to helping survivors of gender-based violence.
+                </p>
+            </div>
+            
+            <div class="support-grid">
+                <div class="support-content slide-in-left">
+                    <h3>Professional Counseling & Legal Aid</h3>
+                    <p>
+                        Connect with trained counselors, legal advisors, and support groups who understand your situation and can provide the help you need.
+                    </p>
+                    <ul class="support-features">
+                        <li>Free confidential counseling sessions</li>
+                        <li>Legal advice and representation</li>
+                        <li>Medical support and referrals</li>
+                        <li>Safe house and shelter information</li>
+                        <li>Economic empowerment programs</li>
+                        <li>Community support groups</li>
+                    </ul>
+                    <a href="#contact" class="btn-primary">Find Support Near You</a>
+                </div>
+                
+                <div class="support-image slide-in-right">
+                    <i class="fas fa-hands-helping"></i>
+                    <div>
+                        <strong>Support Network Image</strong>
+                        <br><small>Suggested: Professional counselor with client in safe environment</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="section-header fade-in">
+                <span class="section-badge">Our Mission</span>
+                <h2 class="section-title">About SautiYetu</h2>
+                <p class="section-description">
+                    SautiYetu means "Our Voice" in Kiswahili. We believe every survivor deserves to be heard, supported, and empowered.
+                </p>
+            </div>
+            
+            <div class="about-content fade-in">
+                <p>
+                    Founded with the vision of creating a safe space for survivors of gender-based violence in Kenya, SautiYetu combines technology with compassionate support to break the barriers that prevent people from seeking help.
+                </p>
+                <p>
+                    Our platform is built by survivors, for survivors, with input from leading NGOs, counselors, and legal experts across Kenya. We understand that seeking help can be scary, which is why we've made anonymity and privacy our top priorities.
+                </p>
+            </div>
+            
+            <div class="about-values">
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="value-title">Privacy First</h4>
+                    <p class="value-description">
+                        Your anonymity is sacred to us. We use advanced security measures to ensure your identity remains protected.
+                    </p>
+                </div>
+                
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4 class="value-title">Compassionate Care</h4>
+                    <p class="value-description">
+                        Every interaction is handled with empathy, understanding, and respect for your journey and choices.
+                    </p>
+                </div>
+                
+                <div class="value-card fade-in">
+                    <div class="value-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="value-title">Community Driven</h4>
+                    <p class="value-description">
+                        Built by and for the Kenyan community, with culturally sensitive support and local resource connections.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer fade-in">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h5>Quick Links</h5>
-                    <ul>
-                        <li><a href="{% url 'reports:report_form' %}">Report Abuse</a></li>
-                        <li><a href="#">Support Resources</a></li>
-                        <li><a href="#">Get Help</a></li>
-                        <li><a href="#">About Us</a></li>
-                    </ul>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="footer-logo-icon">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
-                <div class="footer-section">
-                    <h5>Emergency Contacts</h5>
-                    <ul>
-                        <li><a href="tel:999">Police: 999</a></li>
-                        <li><a href="tel:116">GVRC Hotline: 116</a></li>
-                        <li><a href="tel:0800720501">FIDA Kenya: 0800 720 501</a></li>
-                        <li><a href="tel:116">Childline: 116</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h5>Support Services</h5>
-                    <ul>
-                        <li><a href="#">Legal Aid</a></li>
-                        <li><a href="#">Counseling Services</a></li>
-                        <li><a href="#">Safe Houses</a></li>
-                        <li><a href="#">Healthcare Support</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h5>Connect With Us</h5>
-                    <ul>
-                        <li><a href="mailto:info@sautiyetu.org">info@sautiyetu.org</a></li>
-                        <li><a href="tel:+254700000000">+254 700 000 000</a></li>
-                    </ul>
+                <span style="font-size: 1.5rem; font-weight: 800; color: #1e40af;">SautiYetu</span>
+            </div>
+            <p class="footer-description">
+                Breaking the silence, amplifying voices, and creating safe spaces for survivors of gender-based violence across Kenya.
+            </p>
+            
+            <div class="footer-links">
+                <a href="/features">Features</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/support">Support</a>
+                <a href="/about">About</a>
+                <a href="/report">Report Anonymously</a>
+                <a href="/resources">Resources</a>
+                <a href="/legal-aid">Legal Aid</a>
+            </div>
+            
+            <div class="emergency-footer">
+                <h4>Emergency Contacts</h4>
+                <div class="emergency-numbers">
+                    <span>999 - Police</span>
+                    <span>1195 - Gender Violence</span>
+                    <span>116 - Child Helpline</span>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 SautiYetu. Your safety and privacy are our priority.</p>
-                <p>This platform does not track or store personal information. All reports are anonymous.</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
-    </footer>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 SautiYetu. All rights reserved. | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
+            <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+                <i class="fas fa-shield-alt" style="color: #1e40af;"></i> 
+                Your privacy and safety are our highest priorities.
+            </p>
+        </div>
+    </div>
+</footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript for Animations and Interactions -->
     <script>
-        // Floating Particles Animation
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                // Random positioning and sizing
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-                particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.opacity = Math.random() * 0.5 + 0.2;
-                
-                // Random size variations
-                const size = Math.random() * 3 + 2;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                
-                particlesContainer.appendChild(particle);
-            }
-        }
+        // Language Toggle Functionality
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
 
-        // Scroll-triggered animations
-        function handleScrollAnimations() {
-            const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
-            
-            elements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < window.innerHeight - elementVisible) {
-                    element.classList.add('visible');
+        // Remove smooth scrolling for navigation (they'll link to other pages)
+        // Keep other functionality but remove the smooth scroll part
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-        }
+        }, observerOptions);
 
-        // Header scroll effect
-        function handleHeaderScroll() {
-            const header = document.getElementById('header');
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Header Background Change on Scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
             if (window.scrollY > 100) {
-                header.classList.add('scrolled');
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.15)';
             } else {
-                header.classList.remove('scrolled');
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
             }
-        }
+        });
 
-        // Parallax effect for hero section
-        function handleParallax() {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.hero-image');
-            
-            parallaxElements.forEach(element => {
-                const speed = 0.5;
-                element.style.transform = `translateY(${scrolled * speed}px)`;
+        // Feature Cards Stagger Animation
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Step Cards Stagger Animation
+        const stepCards = document.querySelectorAll('.step-card');
+        stepCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.2}s`;
+        });
+
+        // Emergency Contact Click Tracking (for analytics)
+        document.querySelectorAll('.emergency-contact').forEach(contact => {
+            contact.addEventListener('click', function() {
+                const number = this.querySelector('.contact-number').textContent;
+                console.log(`Emergency contact clicked: ${number}`);
+                // Here you would typically send analytics data
             });
-        }
+        });
 
-        // Enhanced button interactions
-        function enhanceButtonInteractions() {
-            const buttons = document.querySelectorAll('.btn-white, .nav-btn, .lang-btn');
-            
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', function(e) {
-                    const rect = e.target.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const ripple = document.createElement('span');
-                    ripple.style.cssText = `
-                        position: absolute;
-                        border-radius: 50%;
-                        background: rgba(255, 255, 255, 0.3);
-                        transform: scale(0);
-                        animation: ripple 0.6s linear;
-                        left: ${x}px;
-                        top: ${y}px;
-                        width: 10px;
-                        height: 10px;
-                        margin-left: -5px;
-                        margin-top: -5px;
-                        pointer-events: none;
-                    `;
-                    
-                    if (e.target.style.position !== 'relative') {
-                        e.target.style.position = 'relative';
-                    }
-                    
-                    e.target.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        if (ripple.parentNode) {
-                            ripple.parentNode.removeChild(ripple);
-                        }
-                    }, 600);
-                });
+        // Report Button Click Tracking
+        document.querySelectorAll('a[href="#report"]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                console.log('Report button clicked');
+                // Here you would typically redirect to the reporting form
+                // For now, we'll just prevent the default action
+                e.preventDefault();
+                alert('This would redirect to the secure reporting form.');
             });
-        }
+        });
 
-        // Add ripple animation keyframes
-        function addRippleAnimation() {
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(4);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // Staggered animation for feature items
-        function staggerFeatureAnimations() {
-            const featureItems = document.querySelectorAll('.feature-item');
-            
-            featureItems.forEach((item, index) => {
-                item.style.animationDelay = `${index * 0.2}s`;
+        // Support Button Click Tracking
+        document.querySelectorAll('a[href="#support"], a[href="#contact"]').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                console.log('Support button clicked');
+                // Here you would typically redirect to the support resources
             });
-        }
+        });
 
-        // Progressive step animation
-        function animateProgressSteps() {
-            const steps = document.querySelectorAll('.step');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
+        // Mobile Menu Toggle (if needed in future)
+        const createMobileMenu = () => {
+            if (window.innerWidth <= 768) {
+                // Mobile menu functionality would go here
+                console.log('Mobile view detected');
+            }
+        };
+
+        window.addEventListener('resize', createMobileMenu);
+        createMobileMenu(); // Check on initial load
+
+        // Accessibility: Focus management
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
+        });
+
+        // Performance: Lazy load images when they come into view
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        const stepNumber = entry.target.querySelector('.step-number');
-                        stepNumber.style.animation = 'pulse 1s ease-in-out';
-                        
-                        setTimeout(() => {
-                            stepNumber.style.animation = '';
-                        }, 1000);
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                            imageObserver.unobserve(img);
+                        }
                     }
                 });
-            }, { threshold: 0.5 });
-            
-            steps.forEach(step => {
-                observer.observe(step);
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
             });
         }
 
-        // Add pulse animation for steps
-        function addPulseAnimation() {
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes pulse {
-                    0% { transform: scale(1); }
-                    50% { transform: scale(1.2); box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
-                    100% { transform: scale(1); }
-                }
-            `;
-            document.head.appendChild(style);
-        }
-
-        // Smooth scrolling for navigation
-        function enableSmoothScrolling() {
-            const navLinks = document.querySelectorAll('.nav-btn');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Add active state animation
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                });
-            });
-        }
-
-        // Enhanced hover effects for cards
-        function enhanceCardHovers() {
-            const cards = document.querySelectorAll('.feature-item, .emergency-notice');
-            
-            cards.forEach(card => {
-                card.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const deltaX = (x - centerX) / centerX;
-                    const deltaY = (y - centerY) / centerY;
-                    
-                    this.style.transform = `
-                        perspective(1000px) 
-                        rotateX(${deltaY * 5}deg) 
-                        rotateY(${deltaX * 5}deg) 
-                        translateY(-8px) 
-                        scale(1.02)
-                    `;
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = '';
-                });
-            });
-        }
-
-        // Initialize all animations and interactions
-        document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            addRippleAnimation();
-            addPulseAnimation();
-            enhanceButtonInteractions();
-            staggerFeatureAnimations();
-            animateProgressSteps();
-            enableSmoothScrolling();
-            enhanceCardHovers();
-            
-            // Initial check for visible elements
-            handleScrollAnimations();
-        });
-
-        // Event listeners for scroll effects
-        window.addEventListener('scroll', function() {
-            handleScrollAnimations();
-            handleHeaderScroll();
-            handleParallax();
-        });
-
-        // Optimize scroll performance
-        let ticking = false;
-        function optimizedScroll() {
-            if (!ticking) {
-                requestAnimationFrame(function() {
-                    handleScrollAnimations();
-                    handleHeaderScroll();
-                    handleParallax();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }
-
-        window.addEventListener('scroll', optimizedScroll);
+        // Console message for developers
+        console.log('%cSautiYetu Platform', 'color: #1e40af; font-size: 24px; font-weight: bold;');
+        console.log('%cBuilt with privacy and security in mind.', 'color: #6b7280; font-size: 14px;');
+        console.log('%cIf you\'re interested in contributing to this project, please reach out.', 'color: #6b7280; font-size: 12px;');
     </script>
 </body>
 </html>
