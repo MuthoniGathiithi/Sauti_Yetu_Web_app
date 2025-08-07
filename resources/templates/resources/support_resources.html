@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Resources - SautiYetu</title>
+    <link rel="stylesheet" href="{% static 'css/modern-theme.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            padding: var(--space-xl) 0;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-lg) 0;
+            background: rgba(124, 58, 237, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xl);
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-link:hover {
+            color: var(--accent-light);
+        }
+
+        .main-content {
+            margin-top: 100px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 var(--space-lg);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+            color: var(--white);
+        }
+
+        .page-title {
+            font-size: 3rem;
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .emergency-section {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-3xl);
+            text-align: center;
+        }
+
+        .emergency-title {
+            color: #ef4444;
+            font-size: 1.8rem;
+            margin-bottom: var(--space-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md);
+        }
+
+        .emergency-contacts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-lg);
+        }
+
+        .emergency-contact {
+            background: rgba(255, 255, 255, 0.1);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .emergency-contact h4 {
+            color: var(--white);
+            margin-bottom: var(--space-sm);
+        }
+
+        .emergency-phone {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ef4444;
+            margin-bottom: var(--space-sm);
+        }
+
+        .emergency-description {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-2xl);
+        }
+
+        .resource-category {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            color: var(--white);
+            margin: 0;
+        }
+
+        .resource-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resource-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-normal);
+        }
+
+        .resource-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .resource-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: var(--space-sm);
+        }
+
+        .resource-description {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--space-md);
+            line-height: 1.6;
+        }
+
+        .resource-contacts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--accent-light);
+            font-weight: 500;
+        }
+
+        .resource-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+        }
+
+        .resource-badge {
+            padding: var(--space-xs) var(--space-sm);
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--accent-light);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .cta-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: var(--space-3xl);
+            margin-top: var(--space-3xl);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: var(--space-lg);
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--space-2xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .emergency-contacts {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="{% url 'landing_page' %}" class="logo">SautiYetu</a>
+                <nav class="nav-links">
+                    <a href="{% url 'landing_page' %}">Home</a>
+                    <a href="{% url 'report_form' %}">Report</a>
+                    <a href="{% url 'track_report' %}">Track</a>
+                    <a href="#" class="active">Support</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-heart"></i> Support Resources
+            </h1>
+            <p class="page-subtitle">
+                You are not alone. Find help, support, and resources to guide you through difficult times.
+            </p>
+        </div>
+
+        <!-- Emergency Section -->
+        {% if emergency_contacts %}
+        <div class="emergency-section">
+            <h2 class="emergency-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                Emergency Contacts
+            </h2>
+            <p style="color: var(--white); margin-bottom: var(--space-lg);">
+                If you are in immediate danger, please contact emergency services or one of these crisis hotlines immediately.
+            </p>
+            
+            <div class="emergency-contacts">
+                {% for contact in emergency_contacts %}
+                <div class="emergency-contact">
+                    <h4>{{ contact.name }}</h4>
+                    <div class="emergency-phone">{{ contact.phone_number }}</div>
+                    <div class="emergency-description">{{ contact.description }}</div>
+                    {% if contact.is_24_7 %}
+                    <div style="color: var(--accent-light); font-size: 0.8rem; margin-top: var(--space-sm);">
+                        <i class="fas fa-clock"></i> Available 24/7
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Resources by Category -->
+        <div class="resources-grid">
+            {% for category, resources in resources_by_type.items %}
+            <div class="resource-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        {% if 'Hotline' in category %}
+                            <i class="fas fa-phone"></i>
+                        {% elif 'Counseling' in category %}
+                            <i class="fas fa-user-md"></i>
+                        {% elif 'Legal' in category %}
+                            <i class="fas fa-balance-scale"></i>
+                        {% elif 'Medical' in category %}
+                            <i class="fas fa-stethoscope"></i>
+                        {% elif 'Shelter' in category %}
+                            <i class="fas fa-home"></i>
+                        {% elif 'Financial' in category %}
+                            <i class="fas fa-dollar-sign"></i>
+                        {% elif 'Educational' in category %}
+                            <i class="fas fa-book"></i>
+                        {% else %}
+                            <i class="fas fa-hands-helping"></i>
+                        {% endif %}
+                    </div>
+                    <h3 class="category-title">{{ category }}</h3>
+                </div>
+
+                <ul class="resource-list">
+                    {% for resource in resources %}
+                    <li class="resource-item">
+                        <div class="resource-name">{{ resource.name }}</div>
+                        <div class="resource-description">{{ resource.description }}</div>
+                        
+                        <div class="resource-contacts">
+                            {% if resource.contact_phone %}
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <span>{{ resource.contact_phone }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if resource.contact_email %}
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <span>{{ resource.contact_email }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if resource.website %}
+                            <div class="contact-item">
+                                <i class="fas fa-globe"></i>
+                                <a href="{{ resource.website }}" target="_blank" style="color: var(--accent-light);">
+                                    Visit Website
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="resource-badges">
+                            {% if resource.is_24_7 %}
+                            <span class="resource-badge">24/7 Available</span>
+                            {% endif %}
+                            {% if resource.is_free %}
+                            <span class="resource-badge">Free Service</span>
+                            {% endif %}
+                            {% if resource.county %}
+                            <span class="resource-badge">{{ resource.county }}</span>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2 class="cta-title">Need to Report an Incident?</h2>
+            <p class="cta-description">
+                Your safety and privacy are our top priorities. Report incidents anonymously and get the support you need.
+            </p>
+            <div class="cta-buttons">
+                <a href="{% url 'report_form' %}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-shield-alt"></i> Report Incident
+                </a>
+                <a href="{% url 'track_report' %}" class="btn btn-outline btn-lg">
+                    <i class="fas fa-search"></i> Track Report
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add click-to-call functionality for phone numbers
+        document.querySelectorAll('.emergency-phone, .contact-item span').forEach(element => {
+            if (element.textContent.match(/[\d\+\-\(\)\s]+/)) {
+                element.style.cursor = 'pointer';
+                element.addEventListener('click', function() {
+                    const phone = this.textContent.replace(/\s/g, '');
+                    window.location.href = `tel:${phone}`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

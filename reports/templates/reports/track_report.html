@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Report - SautiYetu</title>
+    <link rel="stylesheet" href="{% static 'css/modern-theme.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            padding: var(--space-xl) 0;
+        }
+
+        .track-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+            color: var(--white);
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .header-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            margin-bottom: var(--space-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-label {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-lg);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-lg);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-btn {
+            width: 100%;
+            padding: var(--space-lg);
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .search-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .report-result {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap;
+            gap: var(--space-lg);
+        }
+
+        .report-id-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            color: var(--accent-light);
+            word-break: break-all;
+        }
+
+        .status-badge {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-under_review {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .status-investigating {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .status-resolved {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-closed {
+            background: rgba(107, 114, 128, 0.2);
+            color: #6b7280;
+            border: 1px solid rgba(107, 114, 128, 0.3);
+        }
+
+        .report-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+        }
+
+        .detail-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: var(--space-sm);
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .progress-timeline {
+            margin-top: var(--space-xl);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: var(--space-lg);
+            position: relative;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 40px;
+            width: 2px;
+            height: calc(100% + var(--space-lg));
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-icon {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--space-lg);
+            flex-shrink: 0;
+            font-size: 0.8rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--white);
+        }
+
+        .timeline-description {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: var(--space-sm);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .no-report {
+            text-align: center;
+            padding: var(--space-2xl);
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius-lg);
+            color: #ef4444;
+        }
+
+        .quick-access {
+            background: rgba(255, 255, 255, 0.05);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .quick-access h3 {
+            color: var(--white);
+            margin-bottom: var(--space-lg);
+        }
+
+        .quick-buttons {
+            display: flex;
+            gap: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: var(--space-sm) var(--space-lg);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast);
+        }
+
+        .quick-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .report-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .report-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="track-container">
+        <div class="header-section">
+            <h1><i class="fas fa-search"></i> Track Your Report</h1>
+            <p>Enter your report ID to check the status and progress of your submission. Your privacy and anonymity are always protected.</p>
+        </div>
+
+        {% if not report %}
+        <div class="quick-access">
+            <h3>Quick Access</h3>
+            <div class="quick-buttons">
+                <button class="quick-btn" onclick="loadFromStorage()">
+                    <i class="fas fa-history"></i> Load Last Report ID
+                </button>
+                <a href="{% url 'report_form' %}" class="quick-btn">
+                    <i class="fas fa-plus"></i> Submit New Report
+                </a>
+                <a href="{% url 'support_resources' %}" class="quick-btn">
+                    <i class="fas fa-heart"></i> Get Support
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <form method="post" class="search-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.report_id.id_for_label }}" class="form-label">
+                    <i class="fas fa-id-card"></i> Report ID
+                </label>
+                {{ form.report_id }}
+                <small style="color: rgba(255, 255, 255, 0.7); margin-top: var(--space-sm); display: block;">
+                    Enter the unique ID provided when you submitted your report
+                </small>
+            </div>
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i> Track Report
+            </button>
+        </form>
+
+        {% if report %}
+        <div class="report-result">
+            <div class="report-header">
+                <div>
+                    <h2>Report Status</h2>
+                    <div class="report-id-display">ID: {{ report.report_id }}</div>
+                </div>
+                <div class="status-badge status-{{ report.status }}">
+                    {{ report.get_status_display }}
+                </div>
+            </div>
+
+            <div class="report-details">
+                <div class="detail-item">
+                    <div class="detail-label">Category</div>
+                    <div class="detail-value">{{ report.get_category_display }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Priority</div>
+                    <div class="detail-value">{{ report.get_priority_display }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Submitted</div>
+                    <div class="detail-value">{{ report.date_reported|date:"M d, Y" }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Days Since Report</div>
+                    <div class="detail-value">{{ report.days_since_reported }} days</div>
+                </div>
+            </div>
+
+            {% if report.updates.all %}
+            <div class="progress-timeline">
+                <h3 style="color: var(--white); margin-bottom: var(--space-lg);">
+                    <i class="fas fa-timeline"></i> Progress Timeline
+                </h3>
+                
+                {% for update in report.updates.all %}
+                {% if update.is_public %}
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">{{ update.get_new_status_display }}</div>
+                        <div class="timeline-description">{{ update.notes }}</div>
+                        <div class="timeline-date">{{ update.timestamp|date:"M d, Y - g:i A" }}</div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                
+                <!-- Initial submission -->
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">Report Submitted</div>
+                        <div class="timeline-description">Your report was successfully submitted and assigned for review.</div>
+                        <div class="timeline-date">{{ report.date_reported|date:"M d, Y - g:i A" }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div style="margin-top: var(--space-xl); text-align: center;">
+                <a href="{% url 'support_resources' %}" class="btn btn-secondary">
+                    <i class="fas fa-heart"></i> Get Support Resources
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="no-report">
+            <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: var(--space-lg);"></i>
+            <h3>{{ message }}</h3>
+            <p>Please check your report ID and try again. If you continue to have issues, please contact support.</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <script>
+        function loadFromStorage() {
+            const lastReportId = localStorage.getItem('lastReportId');
+            if (lastReportId) {
+                document.getElementById('id_report_id').value = lastReportId;
+            } else {
+                alert('No previous report ID found in your browser.');
+            }
+        }
+
+        // Auto-focus on the input field
+        document.addEventListener('DOMContentLoaded', function() {
+            const input = document.getElementById('id_report_id');
+            if (input && !input.value) {
+                input.focus();
+            }
+        });
+    </script>
+</body>
+</html>

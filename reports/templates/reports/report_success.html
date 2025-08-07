@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Submitted Successfully - SautiYetu</title>
+    <link rel="stylesheet" href="{% static 'css/modern-theme.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        .success-container {
+            max-width: 600px;
+            padding: var(--space-2xl);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-2xl);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-lg);
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .success-title {
+            font-size: 2rem;
+            margin-bottom: var(--space-lg);
+            color: var(--white);
+        }
+
+        .report-id {
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin: var(--space-lg) 0;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .report-id-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: var(--space-sm);
+        }
+
+        .report-id-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: 600;
+            word-break: break-all;
+            color: var(--accent-light);
+        }
+
+        .copy-btn {
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            margin-top: var(--space-sm);
+            transition: all var(--transition-fast);
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+
+        .next-steps {
+            margin: var(--space-2xl) 0;
+            text-align: left;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: var(--space-lg);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: var(--space-lg);
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            margin-bottom: var(--space-sm);
+            color: var(--white);
+        }
+
+        .step-content p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .resources-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin: var(--space-xl) 0;
+        }
+
+        .resource-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-sm);
+        }
+
+        .resource-info h5 {
+            margin-bottom: var(--space-xs);
+            color: var(--white);
+        }
+
+        .resource-info p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .resource-contact {
+            font-weight: 600;
+            color: var(--accent-light);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--space-lg);
+            justify-content: center;
+            margin-top: var(--space-2xl);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            color: var(--white);
+        }
+
+        @media (max-width: 768px) {
+            .success-container {
+                margin: var(--space-lg);
+                padding: var(--space-lg);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        
+        <h1 class="success-title">Report Submitted Successfully</h1>
+        
+        <p class="mb-6">Thank you for your courage in speaking up. Your report has been received and will be handled with the utmost care and confidentiality.</p>
+        
+        <div class="report-id">
+            <div class="report-id-label">Your Report ID:</div>
+            <div class="report-id-value" id="reportId">{{ report.report_id }}</div>
+            <button class="copy-btn" onclick="copyReportId()">
+                <i class="fas fa-copy"></i> Copy ID
+            </button>
+        </div>
+        
+        <div class="next-steps">
+            <h3 class="mb-4">What Happens Next?</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Review Process</h4>
+                    <p>Your report will be reviewed by our trained professionals within 24 hours. Priority cases are handled immediately.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Investigation</h4>
+                    <p>If appropriate, an investigation will be initiated while maintaining your anonymity and safety.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Support & Follow-up</h4>
+                    <p>You'll receive updates on your report status and access to support resources as needed.</p>
+                </div>
+            </div>
+        </div>
+        
+        {% if support_resources %}
+        <div class="resources-section">
+            <h3 class="mb-4">Immediate Support Resources</h3>
+            {% for resource in support_resources %}
+            <div class="resource-item">
+                <div class="resource-info">
+                    <h5>{{ resource.name }}</h5>
+                    <p>{{ resource.description|truncatewords:15 }}</p>
+                </div>
+                <div class="resource-contact">
+                    {% if resource.contact_phone %}
+                        {{ resource.contact_phone }}
+                    {% elif resource.contact_email %}
+                        {{ resource.contact_email }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="action-buttons">
+            <a href="{% url 'track_report' %}" class="btn btn-primary">
+                <i class="fas fa-search"></i> Track Your Report
+            </a>
+            <a href="{% url 'support_resources' %}" class="btn btn-secondary">
+                <i class="fas fa-heart"></i> Get Support
+            </a>
+            <a href="{% url 'landing_page' %}" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Return Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function copyReportId() {
+            const reportId = document.getElementById('reportId').textContent;
+            navigator.clipboard.writeText(reportId).then(function() {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.style.background = 'var(--accent-color)';
+                
+                setTimeout(function() {
+                    btn.innerHTML = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        // Auto-save report ID to localStorage for easy access
+        localStorage.setItem('lastReportId', '{{ report.report_id }}');
+        localStorage.setItem('lastReportDate', new Date().toISOString());
+    </script>
+</body>
+</html>

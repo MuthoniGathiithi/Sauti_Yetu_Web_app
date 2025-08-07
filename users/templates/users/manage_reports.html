@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Reports - SautiYetu Admin</title>
+    <link rel="stylesheet" href="{% static 'css/modern-theme.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: var(--gray-50);
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-lg) 0;
+            margin-bottom: var(--space-xl);
+        }
+
+        .admin-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .admin-menu {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+        }
+
+        .admin-menu a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+
+        .admin-menu a:hover, .admin-menu a.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .page-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--gray-900);
+            margin-bottom: var(--space-sm);
+        }
+
+        .page-subtitle {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+        }
+
+        .filters-section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--space-sm);
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .reports-table {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-header {
+            background: var(--gray-100);
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: var(--space-md);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: var(--space-lg);
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--gray-50);
+        }
+
+        .status-badge {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(251, 191, 36, 0.1);
+            color: #d97706;
+        }
+
+        .status-under_review {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+        }
+
+        .status-investigating {
+            background: rgba(168, 85, 247, 0.1);
+            color: #7c3aed;
+        }
+
+        .status-resolved {
+            background: rgba(34, 197, 94, 0.1);
+            color: #059669;
+        }
+
+        .status-closed {
+            background: rgba(107, 114, 128, 0.1);
+            color: #4b5563;
+        }
+
+        .priority-badge {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .priority-low {
+            background: rgba(34, 197, 94, 0.1);
+            color: #059669;
+        }
+
+        .priority-medium {
+            background: rgba(251, 191, 36, 0.1);
+            color: #d97706;
+        }
+
+        .priority-high {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .priority-critical {
+            background: rgba(153, 27, 27, 0.1);
+            color: #991b1b;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .btn-sm {
+            padding: var(--space-sm) var(--space-md);
+            font-size: 0.8rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--gray-700);
+        }
+
+        .pagination .current {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .pagination a:hover {
+            background: var(--gray-100);
+        }
+
+        @media (max-width: 768px) {
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .data-table {
+                font-size: 0.9rem;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container">
+            <nav class="admin-nav">
+                <a href="{% url 'super_admin_dashboard' %}" class="admin-logo">
+                    SautiYetu Admin
+                </a>
+                <div class="admin-menu">
+                    <a href="{% url 'super_admin_dashboard' %}">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="{% url 'manage_reports' %}" class="active">
+                        <i class="fas fa-file-alt"></i> Reports
+                    </a>
+                    <a href="{% url 'view_admin_list' %}">
+                        <i class="fas fa-users"></i> Admins
+                    </a>
+                    <a href="{% url 'analytics_dashboard' %}">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </a>
+                    <a href="{% url 'view_activity_logs' %}">
+                        <i class="fas fa-list"></i> Logs
+                    </a>
+                    <a href="{% url 'admin_logout' %}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Manage Reports</h1>
+            <p class="page-subtitle">Review, track, and manage all incident reports in the system</p>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_reports }}</div>
+                <div class="stat-label">Total Reports</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ page_obj.paginator.count }}</div>
+                <div class="stat-label">Filtered Results</div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="filters-section">
+            <form method="get" class="filters-form">
+                <div class="filters-grid">
+                    <div class="form-group">
+                        <label class="form-label">Search</label>
+                        {{ form.search_query }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        {{ form.category }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        {{ form.status }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        {{ form.priority }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date From</label>
+                        {{ form.date_from }}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date To</label>
+                        {{ form.date_to }}
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Apply Filters
+                    </button>
+                    <a href="{% url 'manage_reports' %}" class="btn btn-outline">
+                        <i class="fas fa-times"></i> Clear Filters
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Reports Table -->
+        <div class="reports-table">
+            <div class="table-header">
+                <h3 class="table-title">Reports ({{ page_obj.paginator.count }} total)</h3>
+                <div class="table-actions">
+                    <button class="btn btn-outline btn-sm" onclick="exportReports()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Report ID</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Location</th>
+                        <th>Date Reported</th>
+                        <th>Days Open</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in page_obj %}
+                    <tr>
+                        <td>
+                            <span style="font-family: monospace; font-size: 0.9rem;">
+                                {{ report.report_id|slice:":8" }}...
+                            </span>
+                        </td>
+                        <td>{{ report.get_category_display }}</td>
+                        <td>
+                            <span class="status-badge status-{{ report.status }}">
+                                {{ report.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="priority-badge priority-{{ report.priority }}">
+                                {{ report.get_priority_display }}
+                            </span>
+                        </td>
+                        <td>{{ report.location|default:"Not specified" }}</td>
+                        <td>{{ report.date_reported|date:"M d, Y" }}</td>
+                        <td>{{ report.days_since_reported }} days</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'report_detail' report.report_id %}" 
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                {% if report.status != 'resolved' and report.status != 'closed' %}
+                                <button class="btn btn-secondary btn-sm" 
+                                        onclick="assignReport('{{ report.report_id }}')">
+                                    <i class="fas fa-user-plus"></i> Assign
+                                </button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" style="text-align: center; padding: var(--space-2xl); color: var(--gray-500);">
+                            <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: var(--space-lg);"></i>
+                            <br>
+                            No reports found matching your criteria.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if request.GET.urlencode %}&{{ request.GET.urlencode }}{% endif %}">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.urlencode %}&{{ request.GET.urlencode }}{% endif %}">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.urlencode %}&{{ request.GET.urlencode }}{% endif %}">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.urlencode %}&{{ request.GET.urlencode }}{% endif %}">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <script>
+        function assignReport(reportId) {
+            // This would typically open a modal or redirect to assignment page
+            const assignee = prompt('Enter admin username to assign this report to:');
+            if (assignee) {
+                // Make AJAX request to assign report
+                console.log(`Assigning report ${reportId} to ${assignee}`);
+                // Implementation would go here
+            }
+        }
+
+        function exportReports() {
+            // Export functionality
+            window.location.href = '{% url "manage_reports" %}?export=csv';
+        }
+
+        // Auto-refresh every 30 seconds for real-time updates
+        setInterval(function() {
+            if (document.visibilityState === 'visible') {
+                location.reload();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
